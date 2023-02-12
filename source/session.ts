@@ -488,25 +488,21 @@ export class Session {
    * @param {string} options.pushToken - push token to associate with the request
    *
    */
-  call(
+  async call(
     operations: operation.Operation[],
     { abortController, pushToken, signal }: CallOptions = {}
   ): Promise<Response<Data>[]> {
+    await this.initializing;
     const url = `${this.serverUrl}${this.apiEndpoint}`;
 
-    // Delay call until session is initialized if initialization is in
-    // progress.
-    let request = new Promise<void>((resolve) => {
-      if (this.initializing && !this.initialized) {
-        this.initializing.then(() => {
-          resolve();
-        });
-      } else {
-        resolve();
-      }
-    })
-      .then(() =>
-        fetch(url, {
+    let response;
+    try {
+      // Delay call until session is initialized if initialization is in
+      // progress.
+
+      let fetchResponse;
+      try {
+        fetchResponse = await fetch(url, {
           method: "post",
           credentials: "include",
           headers: {
@@ -519,54 +515,45 @@ export class Session {
           } as HeadersInit,
           body: this.encodeOperations(operations),
           signal: abortController ? abortController.signal : signal,
-        })
-      )
-      .catch((reason) => {
-        logger.warn("Failed to perform request. ", reason);
+        });
+      } catch (reason) {
+        if (reason instanceof Error) {
+          throw this.getErrorFromResponse({
+            exception: "NetworkError",
+            content: reason.message,
+          });
+        }
+        throw new Error("Unknown error");
+      }
+
+      response = await fetchResponse.json();
+
+      if (response.exception) {
+        throw this.getErrorFromResponse(response);
+      }
+
+      return this.decode(response);
+    } catch (reason) {
+      logger.warn("Failed to perform request. ", reason);
+
+      if (reason instanceof Error) {
         if (reason.name === "AbortError") {
-          return Promise.resolve<ResponseError>({
+          throw this.getErrorFromResponse({
             exception: "AbortError",
             content: reason.message,
           });
         }
-        return Promise.resolve<ResponseError>({
-          exception: "NetworkError",
-          content: reason.message,
-        });
-      })
-      .then((response) => {
-        if ("json" in response) {
-          return (response.json && response.json()) || response;
-        }
-        return response;
-      })
-      .then((data) => {
-        if (this.initialized) {
-          return this.decode(data);
-        }
 
-        return data;
-      })
-      // Catch badly formatted responses
-      .catch((reason) => {
         logger.warn("Server reported error in unexpected format. ", reason);
-        return Promise.resolve<ResponseError>({
+        throw this.getErrorFromResponse({
           exception: "MalformedResponseError",
           content: reason.message,
           error: reason,
         });
-      })
-      // Reject promise on API exception.
-      .then((response) => {
-        if (response.exception) {
-          return Promise.reject<ResponseError>(
-            this.getErrorFromResponse(response as ResponseError)
-          );
-        }
-        return Promise.resolve(response);
-      });
+      }
+    }
 
-    return request;
+    throw new Error("Unknown error");
   }
 
   /**
