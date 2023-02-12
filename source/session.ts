@@ -691,16 +691,10 @@ export class Session {
    * @return {Promise} Promise which will be resolved with an object
    * containing action, data and metadata
    */
-  query(expression: string, options: QueryOptions = {}) {
+  async query(expression: string, options: QueryOptions = {}) {
     logger.debug("Query", expression);
-
-    const queryOperation = operation.query(expression);
-    let request = this.call([queryOperation], options).then((responses) => {
-      const response = responses[0];
-      return response;
-    });
-
-    return request;
+    const responses = await this.call([operation.query(expression)], options);
+    return responses[0];
   }
 
   /**
@@ -718,7 +712,7 @@ export class Session {
    * @return {Promise} Promise which will be resolved with an object
    * containing data and metadata
    */
-  search(
+  async search(
     {
       expression,
       entityType,
@@ -736,19 +730,19 @@ export class Session {
       objectTypeIds,
     });
 
-    const searchOperation = operation.search({
-      expression,
-      entityType,
-      terms,
-      contextId,
-      objectTypeIds,
-    });
-    let request = this.call([searchOperation], options).then((responses) => {
-      const response = responses[0];
-      return response;
-    });
-
-    return request;
+    const responses = await this.call(
+      [
+        operation.search({
+          expression,
+          entityType,
+          terms,
+          contextId,
+          objectTypeIds,
+        }),
+      ],
+      options
+    );
+    return responses[0];
   }
 
   /**
@@ -760,17 +754,17 @@ export class Session {
    * @param {string} options.pushToken - push token to associate with the request
    * @return {Promise} Promise which will be resolved with the response.
    */
-  create(entityType: string, data: Data, { pushToken }: CallOptions = {}) {
+  async create(
+    entityType: string,
+    data: Data,
+    { pushToken }: CallOptions = {}
+  ) {
     logger.debug("Create", entityType, data, pushToken);
 
-    let request = this.call([operation.create(entityType, data)], {
+    const responses = await this.call([operation.create(entityType, data)], {
       pushToken,
-    }).then((responses) => {
-      const response = responses[0];
-      return response;
     });
-
-    return request;
+    return responses[0];
   }
 
   /**
@@ -783,7 +777,7 @@ export class Session {
    * @param {string} options.pushToken - push token to associate with the request
    * @return {Promise} Promise resolved with the response.
    */
-  update(
+  async update(
     type: string,
     keys: string[],
     data: Data,
@@ -791,14 +785,10 @@ export class Session {
   ) {
     logger.debug("Update", type, keys, data, pushToken);
 
-    const request = this.call([operation.update(type, keys, data)], {
+    const responses = await this.call([operation.update(type, keys, data)], {
       pushToken,
-    }).then((responses) => {
-      const response = responses[0];
-      return response;
     });
-
-    return request;
+    return responses[0];
   }
 
   /**
@@ -810,17 +800,18 @@ export class Session {
    * @param {string} options.pushToken - push token to associate with the request
    * @return {Promise} Promise resolved with the response.
    */
-  delete(type: string, keys: string[], { pushToken }: MutatationOptions = {}) {
+  async delete(
+    type: string,
+    keys: string[],
+    { pushToken }: MutatationOptions = {}
+  ) {
     logger.debug("Delete", type, keys, pushToken);
 
-    let request = this.call([operation.delete(type, keys)], { pushToken }).then(
-      (responses) => {
-        const response = responses[0];
-        return response;
-      }
-    );
+    const responses = await this.call([operation.delete(type, keys)], {
+      pushToken,
+    });
 
-    return request;
+    return responses[0];
   }
 
   /**
