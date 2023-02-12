@@ -379,9 +379,6 @@ export class Session {
       return this._decodeArray(data, identityMap);
     }
     if (typeof data === "object" && data?.constructor === Object) {
-      if (data.__entity_type__) {
-        return this._mergeEntity(data, identityMap);
-      }
       if (data.__type__ === "datetime") {
         return this._decodeDateTime(data);
       }
@@ -428,37 +425,6 @@ export class Session {
    */
   private _decodeArray(collection: any[], identityMap: Data): any[] {
     return collection.map((item) => this.decode(item, identityMap));
-  }
-
-  /**
-   * Return merged *entity* using *identityMap*.
-   * @private
-   */
-  private _mergeEntity(entity: Data, identityMap: Data) {
-    const identifier = this.getIdentifyingKey(entity);
-    if (!identifier) {
-      logger.warn("Identifier could not be determined for: ", identifier);
-      return entity;
-    }
-
-    if (!identityMap[identifier]) {
-      identityMap[identifier] = {};
-    }
-
-    // Retrieve entity from identity map. Any instances which occur multiple
-    // times in the encoded data will point to the same JavaScript object.
-    // This means that output is not guaranteed to be JSON-serializable.
-    //
-    // TODO: Should we duplicate the information between the instances
-    // instead of pointing them to the same instance?
-    const mergedEntity = identityMap[identifier];
-
-    for (const key in entity) {
-      if (entity.hasOwnProperty(key)) {
-        mergedEntity[key] = this.decode(entity[key], identityMap);
-      }
-    }
-    return mergedEntity;
   }
 
   /** Return encoded *operations*. */
