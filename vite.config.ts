@@ -20,11 +20,10 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ["moment", "uuid", "loglevel"],
+      external: ["uuid", "loglevel"],
       output: {
         globals: {
           "ftrack-javascript-api": "ftrack",
-          moment: "moment",
           uuid: "uuid",
           loglevel: "log",
         },

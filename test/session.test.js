@@ -3,7 +3,6 @@ import { beforeAll } from "vitest";
 
 import { v4 as uuidV4 } from "uuid";
 import loglevel from "loglevel";
-import moment from "moment";
 import {
   ServerPermissionDeniedError,
   ServerValidationError,
@@ -382,8 +381,8 @@ describe("Session", () => {
       .then(done);
   });
 
-  it.skip("Should support ensure with update moment object as criteria", async (done) => {
-    const now = moment();
+  it.skip("Should support ensure with update date object as criteria", async (done) => {
+    const now = new Date();
 
     const name = uuidV4();
 
@@ -449,14 +448,14 @@ describe("Session", () => {
     session.apiUser = previousUser;
   });
 
-  it("Should support encoding moment dates", () => {
-    const now = moment();
+  it("Should support encoding dates", () => {
+    const now = new Date();
     const output = session.encode([{ foo: now, bar: "baz" }, 12321]);
     expect(output).toEqual([
       {
         foo: {
           __type__: "datetime",
-          value: now.format("YYYY-MM-DDTHH:mm:ss"),
+          value: now.toISOString(),
         },
         bar: "baz",
       },
