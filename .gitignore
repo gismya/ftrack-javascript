@@ -59,3 +59,5 @@ package.tgz
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+docs
