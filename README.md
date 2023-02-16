@@ -76,11 +76,11 @@ ftrack API Event class.
 
 • **new Event**(`topic`, `data`, `options?`)
 
-Construct Event instance with _topic_, _data_ and additional _options_.
+Construct Event instance with `topic`, `data` and additional `options`.
 
-_topic_ should be a string representing the event.
+`topic` should be a string representing the event.
 
-_data_ should be an object with the event payload.
+`data` should be an object with the event payload.
 
 ##### Parameters
 
@@ -92,7 +92,7 @@ _data_ should be an object with the event payload.
 
 ##### Defined in
 
-[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event.ts#L24)
+[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event.ts#L24)
 
 ### Methods
 
@@ -114,7 +114,7 @@ Add source to event data.
 
 ##### Defined in
 
-[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event.ts#L45)
+[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event.ts#L45)
 
 ---
 
@@ -130,7 +130,7 @@ Return event data.
 
 ##### Defined in
 
-[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event.ts#L40)
+[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event.ts#L40)
 
 <a name="classeseventhubmd"></a>
 
@@ -146,13 +146,6 @@ ftrack API Event hub.
 
 #### Methods
 
-- [\_IsSubscriberInterestedIn](#_issubscriberinterestedin)
-- [\_addSubscriber](#_addsubscriber)
-- [\_getExpressionTopic](#_getexpressiontopic)
-- [\_handle](#_handle)
-- [\_handleReply](#_handlereply)
-- [\_notifyServerAboutSubscriber](#_notifyserveraboutsubscriber)
-- [\_runWhenConnected](#_runwhenconnected)
 - [connect](#connect)
 - [getSubscriberByIdentifier](#getsubscriberbyidentifier)
 - [isConnected](#isconnected)
@@ -166,7 +159,7 @@ ftrack API Event hub.
 
 #### <a id="constructor" name="constructor"></a> constructor
 
-• **new EventHub**(`serverUrl`, `apiUser`, `apiKey`, `«destructured»?`)
+• **new EventHub**(`serverUrl`, `apiUser`, `apiKey`, `options?`)
 
 Construct EventHub instance with API credentials.
 
@@ -176,196 +169,19 @@ EventHub
 
 ##### Parameters
 
-| Name               | Type     | Description |
-| :----------------- | :------- | :---------- |
-| `serverUrl`        | `string` | Server URL  |
-| `apiUser`          | `string` | API user    |
-| `apiKey`           | `string` | API key     |
-| `«destructured»`   | `Object` | -           |
-| › `applicationId?` | `string` | -           |
+| Name                     | Type     | Description                                    |
+| :----------------------- | :------- | :--------------------------------------------- |
+| `serverUrl`              | `string` | Server URL                                     |
+| `apiUser`                | `string` | API user                                       |
+| `apiKey`                 | `string` | API key                                        |
+| `options`                | `Object` |                                                |
+| `options.applicationId?` | `string` | Application identifier, added to event source. |
 
 ##### Defined in
 
-[event_hub.ts:105](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L105)
+[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L106)
 
 ### Methods
-
-#### <a id="_issubscriberinterestedin" name="_issubscriberinterestedin"></a> \_IsSubscriberInterestedIn
-
-▸ **\_IsSubscriberInterestedIn**(`subscriber`, `eventPayload`): `boolean`
-
-Return if _subscriber_ is interested in _event_.
-
-Only expressions on the format topic=value is supported.
-
-TODO: Support the full event expression format.
-
-##### Parameters
-
-| Name           | Type           |
-| :------------- | :------------- |
-| `subscriber`   | `Subscriber`   |
-| `eventPayload` | `EventPayload` |
-
-##### Returns
-
-`boolean`
-
-##### Defined in
-
-[event_hub.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L491)
-
----
-
-#### <a id="_addsubscriber" name="_addsubscriber"></a> \_addSubscriber
-
-▸ **\_addSubscriber**(`subscription`, `callback`, `metadata?`): `Object`
-
-Add subscriber locally.
-
-Throws an NotUniqueError if a subscriber with
-the same identifier already exists.
-
-##### Parameters
-
-| Name           | Type                 | Description                                      |
-| :------------- | :------------------- | :----------------------------------------------- |
-| `subscription` | `string`             | expression                                       |
-| `callback`     | `EventCallback`      | Function to be called when an event is received. |
-| `metadata`     | `SubscriberMetadata` | Optional information about subscriber.           |
-
-##### Returns
-
-`Object`
-
-subscriber information.
-
-| Name           | Type                 |
-| :------------- | :------------------- |
-| `callback`     | `EventCallback`      |
-| `metadata`     | `SubscriberMetadata` |
-| `subscription` | `string`             |
-
-##### Defined in
-
-[event_hub.ts:411](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L411)
-
----
-
-#### <a id="_getexpressiontopic" name="_getexpressiontopic"></a> \_getExpressionTopic
-
-▸ **\_getExpressionTopic**(`subscription`): `string`
-
-Return topic from _subscription_ expression.
-
-Raises an error if expression is in an unsupported format. Currently,
-only expressions on the format topic=value is supported.
-
-##### Parameters
-
-| Name           | Type     | Description |
-| :------------- | :------- | :---------- |
-| `subscription` | `string` | expression  |
-
-##### Returns
-
-`string`
-
-topic
-
-##### Defined in
-
-[event_hub.ts:388](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L388)
-
----
-
-#### <a id="_handle" name="_handle"></a> \_handle
-
-▸ **\_handle**(`eventPayload`): `void`
-
-Handle Events.
-
-##### Parameters
-
-| Name           | Type           | Description   |
-| :------------- | :------------- | :------------ |
-| `eventPayload` | `EventPayload` | Event payload |
-
-##### Returns
-
-`void`
-
-##### Defined in
-
-[event_hub.ts:506](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L506)
-
----
-
-#### <a id="_handlereply" name="_handlereply"></a> \_handleReply
-
-▸ **\_handleReply**(`eventPayload`): `void`
-
-Handle reply event.
-
-##### Parameters
-
-| Name           | Type           | Description   |
-| :------------- | :------------- | :------------ |
-| `eventPayload` | `EventPayload` | Event payload |
-
-##### Returns
-
-`void`
-
-##### Defined in
-
-[event_hub.ts:540](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L540)
-
----
-
-#### <a id="_notifyserveraboutsubscriber" name="_notifyserveraboutsubscriber"></a> \_notifyServerAboutSubscriber
-
-▸ **\_notifyServerAboutSubscriber**(`subscriber`): `void`
-
-Notify server of new _subscriber_.
-
-##### Parameters
-
-| Name         | Type         | Description            |
-| :----------- | :----------- | :--------------------- |
-| `subscriber` | `Subscriber` | subscriber information |
-
-##### Returns
-
-`void`
-
-##### Defined in
-
-[event_hub.ts:448](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L448)
-
----
-
-#### <a id="_runwhenconnected" name="_runwhenconnected"></a> \_runWhenConnected
-
-▸ **\_runWhenConnected**(`callback`): `void`
-
-Run _callback_ if event hub is connected to server.
-
-##### Parameters
-
-| Name       | Type                 |
-| :--------- | :------------------- |
-| `callback` | `ConnectionCallback` |
-
-##### Returns
-
-`void`
-
-##### Defined in
-
-[event_hub.ts:322](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L322)
-
----
 
 #### <a id="connect" name="connect"></a> connect
 
@@ -379,7 +195,7 @@ Connect to the event server.
 
 ##### Defined in
 
-[event_hub.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L139)
+[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L140)
 
 ---
 
@@ -387,9 +203,7 @@ Connect to the event server.
 
 ▸ **getSubscriberByIdentifier**(`identifier`): `null` \| `Subscriber`
 
-Return subscriber with matching _identifier_.
-
-Return null if no subscriber with _identifier_ found.
+Return subscriber with matching `identifier`.
 
 ##### Parameters
 
@@ -401,9 +215,11 @@ Return null if no subscriber with _identifier_ found.
 
 `null` \| `Subscriber`
 
+null if no subscriber with `identifier` found.
+
 ##### Defined in
 
-[event_hub.ts:471](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L471)
+[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L465)
 
 ---
 
@@ -411,26 +227,26 @@ Return null if no subscriber with _identifier_ found.
 
 ▸ **isConnected**(): `boolean`
 
-Return true if connected to event server.
-
 ##### Returns
 
 `boolean`
 
+True if connected to event server.
+
 ##### Defined in
 
-[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L159)
+[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L159)
 
 ---
 
 #### <a id="publish" name="publish"></a> publish
 
-▸ **publish**(`event`, `«destructured»?`): `Promise`<`string`\>
+▸ **publish**(`event`, `options?`): `Promise`<`string`\>
 
 Publish event and return promise resolved with event id when event has
 been sent.
 
-If _onReply_ is specified, it will be invoked when any replies are
+If `onReply` is specified, it will be invoked when any replies are
 received.
 
 If timeout is non-zero, the promise will be rejected if the event is not
@@ -439,12 +255,12 @@ will default to 10.
 
 ##### Parameters
 
-| Name             | Type                       | Description               |
-| :--------------- | :------------------------- | :------------------------ |
-| `event`          | [`Event`](#classeseventmd) | Event instance to publish |
-| `«destructured»` | `Object`                   | -                         |
-| › `onReply?`     | `EventCallback`            | -                         |
-| › `timeout?`     | `number`                   | -                         |
+| Name               | Type                       | Description                                                           |
+| :----------------- | :------------------------- | :-------------------------------------------------------------------- |
+| `event`            | [`Event`](#classeseventmd) | Event instance to publish                                             |
+| `options`          | `Object`                   |                                                                       |
+| `options.onReply?` | `EventCallback`            | Function to be invoked when a reply is received.                      |
+| `options.timeout?` | `number`                   | Timeout in seconds. Defaults to 30. @ Promise resolved with event id. |
 
 ##### Returns
 
@@ -452,17 +268,15 @@ will default to 10.
 
 ##### Defined in
 
-[event_hub.ts:218](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L218)
+[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L217)
 
 ---
 
 #### <a id="publishandwaitforreply" name="publishandwaitforreply"></a> publishAndWaitForReply
 
-▸ **publishAndWaitForReply**(`event`, `«destructured»?`): `Promise`<`unknown`\>
+▸ **publishAndWaitForReply**(`event`, `«destructured»`): `Promise`<`unknown`\>
 
 Publish event and wait for a single reply.
-
-Returns promise resolved with reply event if received within timeout.
 
 ##### Parameters
 
@@ -478,7 +292,7 @@ Returns promise resolved with reply event if received within timeout.
 
 ##### Defined in
 
-[event_hub.ts:286](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L286)
+[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L283)
 
 ---
 
@@ -494,7 +308,7 @@ Publish reply event.
 | :------------------- | :--------------- | :------------ | :-------------------------------- |
 | `sourceEventPayload` | `EventPayload`   | `undefined`   | Source event payload              |
 | `data`               | `Data`           | `undefined`   | Response event data               |
-| `source?`            | `null` \| `Data` | `null`        | Response event source information |
+| `source`             | `null` \| `Data` | `null`        | Response event source information |
 
 ##### Returns
 
@@ -502,7 +316,7 @@ Publish reply event.
 
 ##### Defined in
 
-[event_hub.ts:554](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L554)
+[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L541)
 
 ---
 
@@ -510,7 +324,7 @@ Publish reply event.
 
 ▸ **subscribe**(`subscription`, `callback`, `metadata?`): `string`
 
-Register to _subscription_ events.
+Register to `subscription` events.
 
 ##### Parameters
 
@@ -518,17 +332,15 @@ Register to _subscription_ events.
 | :------------- | :------------------- | :----------------------------------------------------------------------------------- |
 | `subscription` | `string`             | Expression to subscribe on. Currently, only "topic=value" expressions are supported. |
 | `callback`     | `EventCallback`      | Function to be called when an event matching the subscription is returned.           |
-| `metadata?`    | `SubscriberMetadata` | Optional information about subscriber.                                               |
+| `metadata?`    | `SubscriberMetadata` | Optional information about subscriber. @ Subscriber ID.                              |
 
 ##### Returns
 
 `string`
 
-Subscriber ID.
-
 ##### Defined in
 
-[event_hub.ts:349](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L349)
+[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L346)
 
 ---
 
@@ -536,23 +348,21 @@ Subscriber ID.
 
 ▸ **unsubscribe**(`identifier`): `boolean`
 
-Unsubscribe from _subscription_ events.
+Unsubscribe from `subscription` events.
 
 ##### Parameters
 
-| Name         | Type     | Description                                   |
-| :----------- | :------- | :-------------------------------------------- |
-| `identifier` | `string` | Subscriber ID returned from subscribe method. |
+| Name         | Type     | Description                                                                                       |
+| :----------- | :------- | :------------------------------------------------------------------------------------------------ |
+| `identifier` | `string` | Subscriber ID returned from subscribe method. @ True if a subscriber was removed, false otherwise |
 
 ##### Returns
 
 `boolean`
 
-True if a subscriber was removed, false otherwise
-
 ##### Defined in
 
-[event_hub.ts:365](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/event_hub.ts#L365)
+[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L362)
 
 <a name="classessessionmd"></a>
 
@@ -606,7 +416,7 @@ Session
 
 ##### Defined in
 
-[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L140)
+[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L140)
 
 ### Methods
 
@@ -614,7 +424,7 @@ Session
 
 ▸ **call**(`operations`, `options?`): `Promise`<`Response`<`Data`\>[]\>
 
-Call API with array of operation objects in _operations_.
+Call API with array of operation objects in `operations`.
 
 Returns promise which will be resolved with an array of decoded
 responses.
@@ -641,7 +451,7 @@ Generic server errors or network issues
 
 ##### Defined in
 
-[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L491)
+[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L491)
 
 ---
 
@@ -649,7 +459,7 @@ Generic server errors or network issues
 
 ▸ **create**(`entityType`, `data`, `options?`): `Promise`<`Response`<`Data`\>\>
 
-Perform a single create operation with _type_ and _data_.
+Perform a single create operation with `type` and `data`.
 
 ##### Parameters
 
@@ -667,7 +477,7 @@ Promise which will be resolved with the response.
 
 ##### Defined in
 
-[session.ts:776](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L776)
+[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L775)
 
 ---
 
@@ -675,14 +485,14 @@ Promise which will be resolved with the response.
 
 ▸ **createComponent**(`file`, `options?`): `Promise`<`Response`<`Data`\>[]\>
 
-Create component from _file_ and add to server location.
+Create component from `file` and add to server location.
 
 ##### Parameters
 
-| Name       | Type                     |
-| :--------- | :----------------------- |
-| `file`     | `Blob`                   |
-| `options?` | `CreateComponentOptions` |
+| Name      | Type                     |
+| :-------- | :----------------------- |
+| `file`    | `Blob`                   |
+| `options` | `CreateComponentOptions` |
 
 ##### Returns
 
@@ -693,7 +503,7 @@ Component and ComponentLocation.
 
 ##### Defined in
 
-[session.ts:902](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L902)
+[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L899)
 
 ---
 
@@ -719,7 +529,7 @@ Promise resolved with the response.
 
 ##### Defined in
 
-[session.ts:826](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L826)
+[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L825)
 
 ---
 
@@ -727,7 +537,7 @@ Promise resolved with the response.
 
 ▸ **encodeOperations**(`operations`): `string`
 
-Return encoded _operations_.
+Return encoded `operations`.
 
 ##### Parameters
 
@@ -741,7 +551,7 @@ Return encoded _operations_.
 
 ##### Defined in
 
-[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L465)
+[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L465)
 
 ---
 
@@ -749,23 +559,23 @@ Return encoded _operations_.
 
 ▸ **ensure**(`entityType`, `data`, `identifyingKeys?`): `Promise`<`Data`\>
 
-Return promise of _entityType_ with _data_, create or update if necessary.
+Return promise of `entityType` with `data`, create or update if necessary.
 
-_data_ should be a dictionary of the same form passed to `create`
+`data` should be a dictionary of the same form passed to `create`
 method.
 
-By default, check for an entity that has matching _data_. If
-_identifyingKeys_ is specified as a list of keys then only consider the
-values from _data_ for those keys when searching for existing entity.
+By default, check for an entity that has matching `data`. If
+`identifyingKeys` is specified as a list of keys then only consider the
+values from `data` for those keys when searching for existing entity.
 
-If no _identifyingKeys_ specified then use all of the keys from the
-passed _data_.
+If no `identifyingKeys` specified then use all of the keys from the
+passed `data`.
 
-Raise an Error if no _identifyingKeys_ can be determined.
+Raise an Error if no `identifyingKeys` can be determined.
 
-If no matching entity found then create entity using supplied _data_.
+If no matching entity found then create entity using supplied `data`.
 
-If a matching entity is found, then update it if necessary with _data_.
+If a matching entity is found, then update it if necessary with `data`.
 
 Return update or create promise.
 
@@ -783,7 +593,7 @@ Return update or create promise.
 
 ##### Defined in
 
-[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L593)
+[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L593)
 
 ---
 
@@ -791,7 +601,7 @@ Return update or create promise.
 
 ▸ **getComponentUrl**(`componentId`): `null` \| `string`
 
-Return an URL where _componentId_ can be downloaded.
+Return an URL where `componentId` can be downloaded.
 
 ##### Parameters
 
@@ -803,12 +613,11 @@ Return an URL where _componentId_ can be downloaded.
 
 `null` \| `string`
 
-URL where _componentId_ can be downloaded, null
-if component id is not specified.
+URL where `componentId` can be downloaded, null if component id is not specified.
 
 ##### Defined in
 
-[session.ts:847](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L847)
+[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L844)
 
 ---
 
@@ -816,7 +625,7 @@ if component id is not specified.
 
 ▸ **getIdentifyingKey**(`entity`): `null` \| `string`
 
-Get identifying key for _entity_
+Get identifying key for `entity`
 
 ##### Parameters
 
@@ -828,11 +637,11 @@ Get identifying key for _entity_
 
 `null` \| `string`
 
-Identifying key for _entity_
+Identifying key for `entity`
 
 ##### Defined in
 
-[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L272)
+[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L272)
 
 ---
 
@@ -856,7 +665,7 @@ List of primary key attributes.
 
 ##### Defined in
 
-[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L254)
+[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L254)
 
 ---
 
@@ -880,7 +689,7 @@ Schema definition
 
 ##### Defined in
 
-[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L687)
+[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L687)
 
 ---
 
@@ -888,7 +697,7 @@ Schema definition
 
 ▸ **query**(`expression`, `options?`): `Promise`<`Response`<`Data`\>\>
 
-Perform a single query operation with _expression_.
+Perform a single query operation with `expression`.
 
 ##### Parameters
 
@@ -906,7 +715,7 @@ containing action, data and metadata
 
 ##### Defined in
 
-[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L707)
+[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L707)
 
 ---
 
@@ -914,7 +723,7 @@ containing action, data and metadata
 
 ▸ **search**(`options`, `options?`): `Promise`<`Response`<`Data`\>\>
 
-Perform a single search operation with _expression_.
+Perform a single search operation with `expression`.
 
 ##### Parameters
 
@@ -927,40 +736,39 @@ Perform a single search operation with _expression_.
 
 `Promise`<`Response`<`Data`\>\>
 
-Promise which will be resolved with an object
-containing data and metadata
+Promise which will be resolved with an object containing data and metadata
 
 ##### Defined in
 
-[session.ts:734](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L734)
+[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L733)
 
 ---
 
 #### <a id="thumbnailurl" name="thumbnailurl"></a> thumbnailUrl
 
-▸ **thumbnailUrl**(`componentId`, `[options?`): `string`
+▸ **thumbnailUrl**(`componentId`, `options?`): `string`
 
-Return an URL where a thumbnail for _componentId_ can be downloaded.
+Return an URL where a thumbnail for `componentId` can be downloaded.
 
 ##### Parameters
 
-| Name            | Type                    | Description                                                                               |
-| :-------------- | :---------------------- | :---------------------------------------------------------------------------------------- |
-| `componentId`   | `string`                | Is assumed to be present in the ftrack.server location and be of a valid image file type. |
-| `[options?`     | `Object`                | = {}] - Options                                                                           |
-| `[options.size` | `undefined` \| `number` | -                                                                                         |
+| Name           | Type                    | Description                                                                                             |
+| :------------- | :---------------------- | :------------------------------------------------------------------------------------------------------ |
+| `componentId`  | `string`                | Is assumed to be present in the ftrack.server location and be of a valid image file type.               |
+| `options`      | `Object`                |                                                                                                         |
+| `options.size` | `undefined` \| `number` | The size of the thumbnail. The image will be resized to fit within size x size pixels. Defaults to 300. |
 
 ##### Returns
 
 `string`
 
-URL where _componentId_ can be downloaded. Returns the
+URL where `componentId` can be downloaded. Returns the
 URL to a default thumbnail if component id is not
 specified.
 
 ##### Defined in
 
-[session.ts:875](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L875)
+[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L872)
 
 ---
 
@@ -968,7 +776,7 @@ specified.
 
 ▸ **update**(`type`, `keys`, `data`, `options?`): `Promise`<`Response`<`Data`\>\>
 
-Perform a single update operation on _type_ with _keys_ and _data_.
+Perform a single update operation on `type` with `keys` and `data`.
 
 ##### Parameters
 
@@ -987,7 +795,7 @@ Promise resolved with the response.
 
 ##### Defined in
 
-[session.ts:799](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/session.ts#L799)
+[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L798)
 
 # Interfaces
 
@@ -1036,7 +844,7 @@ error
 
 ##### Defined in
 
-[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L85)
+[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L85)
 
 ---
 
@@ -1052,7 +860,7 @@ error
 
 ##### Defined in
 
-[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L62)
+[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L62)
 
 ---
 
@@ -1068,7 +876,7 @@ error
 
 ##### Defined in
 
-[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L71)
+[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L71)
 
 ---
 
@@ -1084,7 +892,7 @@ error
 
 ##### Defined in
 
-[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L53)
+[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L53)
 
 ---
 
@@ -1100,7 +908,7 @@ error
 
 ##### Defined in
 
-[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L78)
+[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L78)
 
 ---
 
@@ -1116,7 +924,7 @@ error
 
 ##### Defined in
 
-[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L30)
+[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L30)
 
 ---
 
@@ -1132,7 +940,7 @@ error
 
 ##### Defined in
 
-[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L37)
+[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L37)
 
 ---
 
@@ -1148,7 +956,7 @@ error
 
 ##### Defined in
 
-[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/error.ts#L46)
+[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L46)
 
 <a name="modulesoperationmd"></a>
 
@@ -1174,7 +982,7 @@ error
 
 ▸ **create**(`type`, `data`): [`CreateOperation`](#interfacesoperationcreateoperationmd)
 
-Return create operation object for entity _type_ and _data_.
+Return create operation object for entity `type` and `data`.
 
 **`Function`**
 
@@ -1195,11 +1003,11 @@ operation
 
 [`CreateOperation`](#interfacesoperationcreateoperationmd)
 
-API operation
+- API operation
 
 ##### Defined in
 
-[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/operation.ts#L84)
+[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L84)
 
 ---
 
@@ -1207,7 +1015,7 @@ API operation
 
 ▸ **delete**(`type`, `keys`): `DeleteOperation`
 
-Return delete operation object for entity _type_ identified by _keys_.
+Return delete operation object for entity `type` identified by `keys`.
 
 **`Function`**
 
@@ -1232,7 +1040,7 @@ API operation
 
 ##### Defined in
 
-[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/operation.ts#L161)
+[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L161)
 
 ---
 
@@ -1240,7 +1048,7 @@ API operation
 
 ▸ **query**(`expression`): `QueryOperation`
 
-Return query operation object for _expression_.
+Return query operation object for `expression`.
 
 **`Function`**
 
@@ -1264,7 +1072,7 @@ API operation
 
 ##### Defined in
 
-[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/operation.ts#L100)
+[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L100)
 
 ---
 
@@ -1272,7 +1080,7 @@ API operation
 
 ▸ **search**(`expression`): `SearchOperation`
 
-Return search operation object for _expression_.
+Return search operation object for `expression`.
 
 **`Function`**
 
@@ -1292,11 +1100,11 @@ operation
 
 `SearchOperation`
 
-API operation
+- API operation
 
 ##### Defined in
 
-[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/operation.ts#L112)
+[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L112)
 
 ---
 
@@ -1304,7 +1112,7 @@ API operation
 
 ▸ **update**(`type`, `keys`, `data`): `UpdateOperation`
 
-Return update operation object for entity _type_ identified by _keys_.
+Return update operation object for entity `type` identified by `keys`.
 
 **`Function`**
 
@@ -1320,7 +1128,7 @@ operation
 | :----- | :--------- | :---------------------------------------- |
 | `type` | `string`   | Entity type                               |
 | `keys` | `string`[] | Identifying keys, typically [<entity id>] |
-| `data` | `any`      | values to update                          |
+| `data` | `any`      | Values to update                          |
 
 ##### Returns
 
@@ -1330,7 +1138,7 @@ API operation
 
 ##### Defined in
 
-[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/operation.ts#L139)
+[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L139)
 
 <a name="modulesprojectschemamd"></a>
 
@@ -1348,12 +1156,12 @@ API operation
 
 ▸ **getStatuses**(`session`, `projectSchemaId`, `entityType`, `typeId?`): `Promise`<`any`\>
 
-Return statuses from _projectSchemaId_ for _entityType_ and _typeId_.
+Return statuses from `projectSchemaId` for `entityType` and `typeId`.
 
-_entityType_ should be a valid ftrack api schema id, .e.g. 'AssetVersion' or
+`entityType` should be a valid ftrack api schema id, .e.g. 'AssetVersion' or
 'Task'.
 
-_typeId_ can be used to get overridden statuses for a certain task type.
+`typeId` can be used to get overridden statuses for a certain task type.
 
 **`Memberof`**
 
@@ -1374,4 +1182,4 @@ project_schema
 
 ##### Defined in
 
-[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/cbe0411/source/project_schema.ts#L21)
+[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/project_schema.ts#L21)

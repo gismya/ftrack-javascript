@@ -15,11 +15,11 @@ export class Event {
   };
 
   /**
-   * Construct Event instance with *topic*, *data* and additional *options*.
+   * Construct Event instance with `topic`, `data` and additional `options`.
    *
-   * *topic* should be a string representing the event.
+   * `topic` should be a string representing the event.
    *
-   * *data* should be an object with the event payload.
+   * `data` should be an object with the event payload.
    */
   constructor(
     topic: string,

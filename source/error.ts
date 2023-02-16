@@ -2,11 +2,11 @@
 
 /**
  *
- * Return a new error class from *name*.
+ * Return a new error class from `name`.
  *
  * @private
- * @param  {string} name name of error class
- * @return {CustomError}      Custom error object
+ * @param - Name of error class
+ * @returns - Custom error object
  */
 function errorFactory(name: string) {
   class CustomError extends Error {

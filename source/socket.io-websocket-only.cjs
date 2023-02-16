@@ -274,7 +274,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Generates the correct `XMLHttpRequest` for regular and cross domain requests.
      *
      * @param {Boolean} [xdomain] Create a request that can be used cross domain.
-     * @returns {XMLHttpRequest|false} If we can create a XMLHttpRequest.
+     * @returns If we can create a XMLHttpRequest.
      * @api private
      */
 
@@ -1492,7 +1492,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Generates a connection url based on the Socket.IO URL Protocol.
      * See <https://github.com/learnboost/socket.io-node/> for more details.
      *
-     * @returns {String} Connection url
+     * @returns Connection url
      * @api private
      */
 
@@ -1736,7 +1736,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Connects to the server.
      *
      * @param {Function} [fn] Callback.
-     * @returns {io.Socket}
+     * @returns
      * @api public
      */
 
@@ -1829,7 +1829,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Sends a message.
      *
      * @param {Object} data packet.
-     * @returns {io.Socket}
+     * @returns
      * @api public
      */
 
@@ -1874,7 +1874,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
     /**
      * Disconnect the established connect.
      *
-     * @returns {io.Socket}
+     * @returns
      * @api public
      */
 
@@ -1921,7 +1921,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Check if we need to use cross domain enabled transports. Cross domain would
      * be a different port or different domain name.
      *
-     * @returns {Boolean}
+     * @returns
      * @api private
      */
 
@@ -2422,7 +2422,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Initializes a new `WebSocket` connection with the Socket.IO server. We attach
      * all the appropriate listeners to handle the responses from the server.
      *
-     * @returns {Transport}
+     * @returns
      * @api public
      */
 
@@ -2459,7 +2459,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
      * Send a message to the Socket.IO server. The message will automatically be
      * encoded in the correct message format.
      *
-     * @returns {Transport}
+     * @returns
      * @api public
      */
 
@@ -2497,7 +2497,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
     /**
      * Disconnect the established `WebSocket` connection.
      *
-     * @returns {Transport}
+     * @returns
      * @api public
      */
 
@@ -2545,7 +2545,7 @@ var io = "undefined" === typeof module ? {} : module.exports;
     /**
      * Check if the `WebSocket` transport support cross domain communications.
      *
-     * @returns {Boolean}
+     * @returns
      * @api public
      */
 

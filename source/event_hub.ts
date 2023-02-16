@@ -96,10 +96,11 @@ export class EventHub {
 
   /**
    * Construct EventHub instance with API credentials.
-   * @param  {String} serverUrl             Server URL
-   * @param  {String} apiUser               API user
-   * @param  {String} apiKey                API key
-   * @param  {String} [options.applicationId] Application identifier, added to event source.
+   * @param serverUrl - Server URL
+   * @param apiUser - API user
+   * @param apiKey - API key
+   * @param options
+   * @param options.applicationId - Application identifier, added to event source.
    * @constructs EventHub
    */
   constructor(
@@ -153,8 +154,7 @@ export class EventHub {
   }
 
   /**
-   * Return true if connected to event server.
-   * @return {Boolean}
+   * @returns True if connected to event server.
    */
   isConnected(): boolean {
     return (this._socketIo && this._socketIo.socket.connected) || false;
@@ -162,7 +162,6 @@ export class EventHub {
 
   /**
    * Handle on connect event.
-   *
    * Subscribe to replies and send any queued events.
    */
   private _onSocketConnected() {
@@ -202,18 +201,18 @@ export class EventHub {
    * Publish event and return promise resolved with event id when event has
    * been sent.
    *
-   * If *onReply* is specified, it will be invoked when any replies are
+   * If `onReply` is specified, it will be invoked when any replies are
    * received.
    *
    * If timeout is non-zero, the promise will be rejected if the event is not
    * sent before the timeout is reached. Should be specified as seconds and
    * will default to 10.
    *
-   * @param  {Event}  event               Event instance to publish
-   * @param  {Function} [options.onReply] Function to be invoked when a reply
-   *                                      is received.
-   * @param  {Number}  [options.timeout]  Timeout in seconds. Defaults to 30.
-   * @return {Promise}
+   * @param event - Event instance to publish
+   * @param options
+   * @param options.onReply - Function to be invoked when a reply is received.
+   * @param options.timeout - Timeout in seconds. Defaults to 30.
+   * @returns Promise resolved with event id.
    */
   publish(
     event: Event,
@@ -277,11 +276,9 @@ export class EventHub {
   /**
    * Publish event and wait for a single reply.
    *
-   * Returns promise resolved with reply event if received within timeout.
-   *
-   * @param  {Event}  event               Event instance to publish
-   * @param  {Number}  [options.timeout]  Timeout in seconds [30]
-   * @return {Promise}
+   * @param event - Event instance to publish
+   * @param options.timeout - Timeout in seconds [30]
+   * @returns Promise resolved with reply event if received within timeout.
    */
   publishAndWaitForReply(
     event: Event,
@@ -316,10 +313,10 @@ export class EventHub {
   }
 
   /**
-   * Run *callback* if event hub is connected to server.
-   * @param  {Function} callback
+   * Run `callback` if event hub is connected to server.
+   * @param callback
    */
-  _runWhenConnected(callback: ConnectionCallback) {
+  private _runWhenConnected(callback: ConnectionCallback) {
     if (!this.isConnected()) {
       this.logger.debug("Event hub is not connected, event is delayed.");
       this._unsentEvents.push(callback);
@@ -336,15 +333,15 @@ export class EventHub {
   }
 
   /**
-   * Register to *subscription* events.
+   * Register to `subscription` events.
    *
-   * @param  {String}   subscription  Expression to subscribe on. Currently,
-   *                                  only "topic=value" expressions are
-   *                                  supported.
-   * @param  {Function} callback      Function to be called when an event
-   *                                  matching the subscription is returned.
-   * @param  {Object}   [metadata]    Optional information about subscriber.
-   * @return {String}                 Subscriber ID.
+   * @param subscription -  Expression to subscribe on. Currently,
+   *                        only "topic=value" expressions are
+   *                        supported.
+   * @param callback - Function to be called when an event
+   *                   matching the subscription is returned.
+   * @param metadata - Optional information about subscriber.
+   * @returns Subscriber ID.
    */
   subscribe(
     subscription: string,
@@ -357,10 +354,10 @@ export class EventHub {
   }
 
   /**
-   * Unsubscribe from *subscription* events.
+   * Unsubscribe from `subscription` events.
    *
-   * @param  {String}   identifier  Subscriber ID returned from subscribe method.
-   * @return {Boolean}              True if a subscriber was removed, false otherwise
+   * @param identifier - Subscriber ID returned from subscribe method.
+   * @returns True if a subscriber was removed, false otherwise
    */
   unsubscribe(identifier: string): boolean {
     let hasFoundSubscriberToRemove = false;
@@ -377,15 +374,15 @@ export class EventHub {
   }
 
   /**
-   * Return topic from *subscription* expression.
+   * Return topic from `subscription` expression.
    *
    * Raises an error if expression is in an unsupported format. Currently,
    * only expressions on the format topic=value is supported.
    *
-   * @param  {String} subscription    expression
-   * @return {String}                 topic
+   * @param subscription - expression
+   * @returns Topic
    */
-  _getExpressionTopic(subscription: string) {
+  private _getExpressionTopic(subscription: string) {
     // retreive the value of a topic on the format "topic=value"
     const regex = new RegExp("^topic[ ]?=[ '\"]?([\\w-,./*@+]+)['\"]?$");
     const matches = subscription.trim().match(regex);
@@ -400,15 +397,15 @@ export class EventHub {
   /**
    * Add subscriber locally.
    *
-   * Throws an NotUniqueError if a subscriber with
+   * Throws a NotUniqueError if a subscriber with
    * the same identifier already exists.
    *
-   * @param {String}   subscription   expression
-   * @param {Function} callback       Function to be called when an event is received.
-   * @param {Object}   metadata       Optional information about subscriber.
-   * @return {Object}                 subscriber information.
+   * @param subscription - expression
+   * @param callback - Function to be called when an event is received.
+   * @param metadata - Optional information about subscriber.
+   * @returns Subscriber information.
    */
-  _addSubscriber(
+  private _addSubscriber(
     subscription: string,
     callback: EventCallback,
     metadata: SubscriberMetadata = {
@@ -442,10 +439,10 @@ export class EventHub {
   }
 
   /**
-   * Notify server of new *subscriber*.
-   * @param  {Object} subscriber      subscriber information
+   * Notify server of new `subscriber`.
+   * @param subscriber - Subscriber information
    */
-  _notifyServerAboutSubscriber(subscriber: Subscriber) {
+  private _notifyServerAboutSubscriber(subscriber: Subscriber) {
     const subscribeEvent = new Event("ftrack.meta.subscribe", {
       subscriber: subscriber.metadata,
       subscription: subscriber.subscription,
@@ -453,7 +450,7 @@ export class EventHub {
     this.publish(subscribeEvent);
   }
 
-  _notifyServerAboutUnsubscribe(subscriber: SubscriberMetadata) {
+  private _notifyServerAboutUnsubscribe(subscriber: SubscriberMetadata) {
     const unsubscribeEvent = new Event("ftrack.meta.unsubscribe", {
       subscriber,
     });
@@ -461,12 +458,9 @@ export class EventHub {
   }
 
   /**
-   * Return subscriber with matching *identifier*.
+   * Return subscriber with matching `identifier`.
    *
-   * Return null if no subscriber with *identifier* found.
-   *
-   * @param  {String} identifier
-   * @return {Subscriber|null}
+   * @returns null if no subscriber with `identifier` found.
    */
   getSubscriberByIdentifier(identifier: string): Subscriber | null {
     for (const subscriber of this._subscribers.slice()) {
@@ -478,17 +472,10 @@ export class EventHub {
   }
 
   /**
-   * Return if *subscriber* is interested in *event*.
-   *
+   * Return if `subscriber` is interested in `event`.
    * Only expressions on the format topic=value is supported.
-   *
-   * TODO: Support the full event expression format.
-   *
-   * @param  {Object} subscriber
-   * @param  {Object} eventPayload
-   * @return {Boolean}
    */
-  _IsSubscriberInterestedIn(
+  private _IsSubscriberInterestedIn(
     subscriber: Subscriber,
     eventPayload: EventPayload
   ) {
@@ -501,9 +488,9 @@ export class EventHub {
 
   /**
    * Handle Events.
-   * @param  {Object} eventPayload   Event payload
+   * @param eventPayload - Event payload
    */
-  _handle(eventPayload: EventPayload) {
+  private _handle(eventPayload: EventPayload) {
     this.logger.debug("Event received", eventPayload);
 
     for (const subscriber of this._subscribers) {
@@ -535,9 +522,9 @@ export class EventHub {
 
   /**
    * Handle reply event.
-   * @param  {Object} eventPayload  Event payload
+   * @param eventPayload - Event payload
    */
-  _handleReply(eventPayload: EventPayload) {
+  private _handleReply(eventPayload: EventPayload) {
     this.logger.debug("Reply received", eventPayload);
     const onReplyCallback = this._replyCallbacks[eventPayload.inReplyToEvent];
     if (onReplyCallback) {
@@ -547,9 +534,9 @@ export class EventHub {
 
   /**
    * Publish reply event.
-   * @param  {Object} sourceEventPayload Source event payload
-   * @param  {Object} data        Response event data
-   * @param  {Object} [source]    Response event source information
+   * @param sourceEventPayload - Source event payload
+   * @param data - Response event data
+   * @param source - Response event source information
    */
   publishReply(
     sourceEventPayload: EventPayload,

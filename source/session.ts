@@ -22,10 +22,10 @@ const logger = loglevel.getLogger("ftrack_api");
 const ENCODE_DATETIME_FORMAT = "YYYY-MM-DDTHH:mm:ss";
 
 /**
- * Create component from *file* and add to server location.
+ * Create component from `file` and add to server location.
  *
- * @param  {fileName} The name of the file.
- * @return {array} Array with [basename, extension] from filename.
+ * @param fileName - The name of the file.
+ * @returns Array with [basename, extension] from filename.
  */
 function splitFileExtension(fileName: string) {
   let basename = fileName || "";
@@ -125,15 +125,15 @@ export class Session {
   /**
    * Construct Session instance with API credentials.
    *
-   * @param  {string}  serverUrl -                  ftrack server URL
-   * @param  {string}  apiUser -                    ftrack username for API user.
-   * @param  {string}  apiKey -                     User API Key
-   * @param  {Object}  options  -                   options
-   * @param  {Boolean} [options.autoConnectEventHub=false] - Automatically connect to event hub,
-   * @param  {Array|null} [options.serverInformationValues] - List of server information values to retrieve.
-   * @param  {Object}  [options.eventHubOptions={}] - Options to configure event hub with.
-   * @param  {string} [options.clientToken] - Client token for update events.
-   * @param  {string} [options.apiEndpoint=/api] - API endpoint.
+   * @param serverUrl - ftrack server URL
+   * @param apiUser - ftrack username for API user.
+   * @param apiKey - User API Key
+   * @param options - options
+   * @param options.autoConnectEventHub - Automatically connect to event hub,
+   * @param options.serverInformationValues - List of server information values to retrieve.
+   * @param options.eventHubOptions - Options to configure event hub with.
+   * @param options.clientToken - Client token for update events.
+   * @param options.apiEndpoint - API endpoint.
    *
    * @constructs Session
    */
@@ -152,7 +152,7 @@ export class Session {
     if (!serverUrl || !apiUser || !apiKey) {
       throw new Error(
         "Invalid arguments, please construct Session with " +
-          "*serverUrl*, *apiUser* and *apiKey*."
+          "`serverUrl`, `apiUser` and `apiKey`."
       );
     }
 
@@ -249,7 +249,7 @@ export class Session {
   /**
    * Get primary key attributes from schema
    *
-   * @return {Array|null} List of primary key attributes.
+   * @returns List of primary key attributes.
    */
   getPrimaryKeyAttributes(entityType: string) {
     if (!this.schemas) {
@@ -265,9 +265,9 @@ export class Session {
   }
 
   /**
-   * Get identifying key for *entity*
+   * Get identifying key for `entity`
    *
-   * @return {String|null} Identifying key for *entity*
+   * @returns Identifying key for `entity`
    */
   getIdentifyingKey(entity: Data) {
     const primaryKeys = this.getPrimaryKeyAttributes(entity.__entity_type__);
@@ -281,15 +281,15 @@ export class Session {
   }
 
   /**
-   * Return encoded *data* as JSON string.
+   * Return encoded `data` as JSON string.
    *
    * This will translate objects with type moment into string representation.
    * If time zone support is enabled on the server the date
    * will be sent as UTC, otherwise in local time.
    *
    * @private
-   * @param  {*} data  The data to encode.
-   * @return {*}      Encoded data
+   * @param data - The data to encode.
+   * @returns Encoded data
    */
   private encode(data: any): any {
     if (data && data.constructor === Array) {
@@ -331,11 +331,11 @@ export class Session {
     return data;
   }
 
-  /** Return error instance from *response*.
+  /** Return error instance from `response`.
    *
    * @private
-   * @param  {*} response  A server error response object.
-   * @return {*}      error instance.
+   * @param response - A server error response object.
+   * @returns error instance.
    */
   private getErrorFromResponse(response: ResponseError) {
     let ErrorClass;
@@ -359,19 +359,19 @@ export class Session {
   }
 
   /**
-   * Iterate *data* and decode entities with special encoding logic.
+   * Iterate `data` and decode entities with special encoding logic.
    *
    * Iterates recursively through objects and arrays.
    *
    * Will merge ftrack entities multiple occurrences which have been
    * de-duplicated in the back end and point them to a single object in
-   * *identityMap*.
+   * `identityMap`.
    *
    * datetime objects will be converted to timezone-aware moment objects.
    *
    * @private
-   * @param  {*} data  The data to decode.
-   * @return {*}      Decoded data
+   * @param data - The data to decode.
+   * @returns Decoded data
    */
 
   private decode(data: any, identityMap: Data = {}): any {
@@ -391,7 +391,7 @@ export class Session {
   }
 
   /**
-   * Decode datetime *data* into moment objects.
+   * Decode datetime `data` into moment objects.
    *
    * Translate objects with __type__ equal to 'datetime' into moment
    * datetime objects. If time zone support is enabled on the server the date
@@ -431,7 +431,7 @@ export class Session {
   }
 
   /**
-   * Return merged *entity* using *identityMap*.
+   * Return merged `entity` using `identityMap`.
    * @private
    */
   private _mergeEntity(entity: Data, identityMap: Data) {
@@ -461,13 +461,13 @@ export class Session {
     return mergedEntity;
   }
 
-  /** Return encoded *operations*. */
+  /** Return encoded `operations`. */
   encodeOperations(operations: operation.Operation[]) {
     return JSON.stringify(this.encode(operations));
   }
 
   /**
-   * Call API with array of operation objects in *operations*.
+   * Call API with array of operation objects in `operations`.
    *
    * Returns promise which will be resolved with an array of decoded
    * responses.
@@ -481,11 +481,11 @@ export class Session {
    * ServerError
    *     Generic server errors or network issues
    *
-   * @param {Array} operations - API operations.
-   * @param {Object} options
-   * @param {AbortController} options.abortController - Abort controller, deprecated in favor of options.signal
-   * @param {AbortSignal} options.signal - Abort signal
-   * @param {string} options.pushToken - push token to associate with the request
+   * @param operations - API operations.
+   * @param options
+   * @param options.abortController - Abort controller, deprecated in favor of options.signal
+   * @param options.signal - Abort signal
+   * @param options.pushToken - push token to associate with the request
    *
    */
   call(
@@ -570,23 +570,23 @@ export class Session {
   }
 
   /**
-   * Return promise of *entityType* with *data*, create or update if necessary.
+   * Return promise of `entityType` with `data`, create or update if necessary.
    *
-   *   *data* should be a dictionary of the same form passed to `create`
+   *   `data` should be a dictionary of the same form passed to `create`
    *   method.
    *
-   *   By default, check for an entity that has matching *data*. If
-   *   *identifyingKeys* is specified as a list of keys then only consider the
-   *   values from *data* for those keys when searching for existing entity.
+   *   By default, check for an entity that has matching `data`. If
+   *   `identifyingKeys` is specified as a list of keys then only consider the
+   *   values from `data` for those keys when searching for existing entity.
    *
-   *   If no *identifyingKeys* specified then use all of the keys from the
-   *   passed *data*.
+   *   If no `identifyingKeys` specified then use all of the keys from the
+   *   passed `data`.
    *
-   *   Raise an Error if no *identifyingKeys* can be determined.
+   *   Raise an Error if no `identifyingKeys` can be determined.
    *
-   *   If no matching entity found then create entity using supplied *data*.
+   *   If no matching entity found then create entity using supplied `data`.
    *
-   *   If a matching entity is found, then update it if necessary with *data*.
+   *   If a matching entity is found, then update it if necessary with `data`.
    *
    *   Return update or create promise.
    */
@@ -681,8 +681,8 @@ export class Session {
 
   /**
    * Return schema with id or null if not existing.
-   * @param  {string} schemaId Id of schema model, e.g. `AssetVersion`.
-   * @return {Object|null} Schema definition
+   * @param schemaId - Id of schema model, e.g. `AssetVersion`.
+   * @returns Schema definition
    */
   getSchema(schemaId: string): Data | null {
     for (const index in this.schemas) {
@@ -695,13 +695,13 @@ export class Session {
   }
 
   /**
-   * Perform a single query operation with *expression*.
+   * Perform a single query operation with `expression`.
    *
-   * @param {string} expression - API query expression.
-   * @param {object} options
-   * @param {object} options.abortController - Deprecated in favour of options.signal
-   * @param {object} options.signal - Abort signal user for aborting requests prematurely
-   * @return {Promise} Promise which will be resolved with an object
+   * @param expression - API query expression.
+   * @param options
+   * @param options.abortController - Deprecated in favour of options.signal
+   * @param options.signal - Abort signal user for aborting requests prematurely
+   * @returns Promise which will be resolved with an object
    * containing action, data and metadata
    */
   query(expression: string, options: QueryOptions = {}) {
@@ -717,19 +717,18 @@ export class Session {
   }
 
   /**
-   * Perform a single search operation with *expression*.
+   * Perform a single search operation with `expression`.
    *
-   * @param {Object}   options
-   * @param {String}   options.expression     API query expression
-   * @param {String}   options.entityType     Entity type to search for
-   * @param {String[]} options.terms          Search terms
-   * @param {String}   [options.contextId]    Context id to limit the search result to
-   * @param {String[]} [options.objectTypeIds] Object type ids to limit the search result to
-   * @param {object} additionalOptions
-   * @param {object} options.abortController - Deprecated in favour of options.signal
-   * @param {object} options.signal - Abort signal user for aborting requests prematurely
-   * @return {Promise} Promise which will be resolved with an object
-   * containing data and metadata
+   * @param options
+   * @param options.expression - API query expression
+   * @param options.entityType - Entity type to search for
+   * @param options.terms - Search terms
+   * @param options.contextId - Context id to limit the search result to
+   * @param options.objectTypeIds - Object type ids to limit the search result to
+   * @param additionalOptions
+   * @param options.abortController - Deprecated in favour of options.signal
+   * @param options.signal - Abort signal user for aborting requests prematurely
+   * @returns Promise which will be resolved with an object containing data and metadata
    */
   search(
     {
@@ -765,13 +764,13 @@ export class Session {
   }
 
   /**
-   * Perform a single create operation with *type* and *data*.
+   * Perform a single create operation with `type` and `data`.
    *
-   * @param {string} entityType entity type name.
-   * @param {Object} data data which should be used to populate attributes on the entity.
-   * @param {Object} options
-   * @param {string} options.pushToken - push token to associate with the request
-   * @return {Promise} Promise which will be resolved with the response.
+   * @param entityType - entity type name.
+   * @param data - data which should be used to populate attributes on the entity.
+   * @param options
+   * @param options.pushToken - push token to associate with the request
+   * @returns Promise which will be resolved with the response.
    */
   create(entityType: string, data: Data, { pushToken }: CallOptions = {}) {
     logger.debug("Create", entityType, data, pushToken);
@@ -787,14 +786,14 @@ export class Session {
   }
 
   /**
-   * Perform a single update operation on *type* with *keys* and *data*.
+   * Perform a single update operation on `type` with `keys` and `data`.
    *
-   * @param  {string} type Entity type
-   * @param  {Array} keys Identifying keys, typically [<entity id>]
-   * @param  {Object} data
-   * @param {Object} options
-   * @param {string} options.pushToken - push token to associate with the request
-   * @return {Promise} Promise resolved with the response.
+   * @param type - Entity type
+   * @param keys - Identifying keys, typically [<entity id>]
+   * @param data
+   * @param options
+   * @param options.pushToken - Push token to associate with the request
+   * @returns Promise resolved with the response.
    */
   update(
     type: string,
@@ -817,11 +816,11 @@ export class Session {
   /**
    * Perform a single delete operation.
    *
-   * @param  {string} type Entity type
-   * @param  {Array} keys Identifying keys, typically [<entity id>]
-   * @param {Object} options
-   * @param {string} options.pushToken - push token to associate with the request
-   * @return {Promise} Promise resolved with the response.
+   * @param type - Entity type
+   * @param keys - Identifying keys, typically [<entity id>]
+   * @param options
+   * @param options.pushToken - Push token to associate with the request
+   * @returns Promise resolved with the response.
    */
   delete(type: string, keys: string[], { pushToken }: MutatationOptions = {}) {
     logger.debug("Delete", type, keys, pushToken);
@@ -837,12 +836,10 @@ export class Session {
   }
 
   /**
-   * Return an URL where *componentId* can be downloaded.
+   * Return an URL where `componentId` can be downloaded.
    *
-   * @param {?string} componentId Is assumed to be present in the
-   *                  ftrack.server location.
-   * @return {String|null} URL where *componentId* can be downloaded, null
-   *                       if component id is not specified.
+   * @param componentId - Is assumed to be present in the ftrack.server location.
+   * @returns URL where `componentId` can be downloaded, null if component id is not specified.
    */
   getComponentUrl(componentId: string) {
     if (!componentId) {
@@ -861,14 +858,14 @@ export class Session {
   }
 
   /**
-   * Return an URL where a thumbnail for *componentId* can be downloaded.
+   * Return an URL where a thumbnail for `componentId` can be downloaded.
    *
-   * @param {?string} componentId - Is assumed to be present in the
+   * @param componentId - Is assumed to be present in the
    *                  ftrack.server location and be of a valid image file type.
-   * @param {?object} [options = {}] - Options
-   * @param {?number} options.size - The size of the thumbnail. The image will be resized to
+   * @param options
+   * @param options.size - The size of the thumbnail. The image will be resized to
    *                  fit within size x size pixels. Defaults to 300.
-   * @return {string} URL where *componentId* can be downloaded. Returns the
+   * @returns  URL where `componentId` can be downloaded. Returns the
    *                  URL to a default thumbnail if component id is not
    *                  specified.
    */
@@ -890,13 +887,13 @@ export class Session {
   }
 
   /**
-   * Create component from *file* and add to server location.
+   * Create component from `file` and add to server location.
    *
-   * @param  {Blob} - The file object to upload.
-   * @param {?object} [options = {}] - Options
-   * @param {?string} options.name - Component name. Defaults get from file object.
-   * @param {?number} options.data - Component data. Defaults to {}.
-   * @return {Promise} Promise resolved with the response when creating
+   * @param - The file object to upload.
+   * @param options
+   * @param options.name - Component name. Defaults get from file object.
+   * @param options.data - Component data. Defaults to {}.
+   * @returns  Promise resolved with the response when creating
    * Component and ComponentLocation.
    */
   createComponent(

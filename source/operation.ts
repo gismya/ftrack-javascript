@@ -73,13 +73,13 @@ export type Operation =
   | { action: string; [key: string]: any };
 
 /**
- * Return create operation object for entity *type* and *data*.
+ * Return create operation object for entity `type` and `data`.
  *
  * @function operation.create
  * @memberof operation
- * @param  {string} type Entity type
- * @param  {Object} data Entity data to use for creation
- * @return {Object}      API operation
+ * @param type - Entity type
+ * @param data - Entity data to use for creation
+ * @returns - API operation
  */
 export function create(type: string, data: any): CreateOperation {
   return {
@@ -90,24 +90,24 @@ export function create(type: string, data: any): CreateOperation {
 }
 
 /**
- * Return query operation object for *expression*.
+ * Return query operation object for `expression`.
  *
  * @function operation.query
  * @memberof operation
- * @param  {string} expression API query expression
- * @return {Object}            API operation
+ * @param expression - API query expression
+ * @returns API operation
  */
 export function query(expression: string): QueryOperation {
   return { action: "query", expression };
 }
 
 /**
- * Return search operation object for *expression*.
+ * Return search operation object for `expression`.
  *
  * @function operation.query
  * @memberof operation
- * @param  {string} expression API query expression
- * @return {Object}            API operation
+ * @param expression - API query expression
+ * @returns - API operation
  */
 export function search({
   expression,
@@ -127,14 +127,14 @@ export function search({
 }
 
 /**
- * Return update operation object for entity *type* identified by *keys*.
+ * Return update operation object for entity `type` identified by `keys`.
  *
  * @function operation.update
  * @memberof operation
- * @param  {string} type Entity type
- * @param  {Array} keys Identifying keys, typically [<entity id>]
- * @param  {Object} data values to update
- * @return {Object}      API operation
+ * @param type - Entity type
+ * @param keys - Identifying keys, typically [<entity id>]
+ * @param data - Values to update
+ * @returns API operation
  */
 export function update(
   type: string,
@@ -150,13 +150,13 @@ export function update(
 }
 
 /**
- * Return delete operation object for entity *type* identified by *keys*.
+ * Return delete operation object for entity `type` identified by `keys`.
  *
  * @function operation.delete
  * @memberof operation
- * @param  {string} type Entity type
- * @param  {Array} keys Identifying keys, typically [<entity id>]
- * @return {Object}      API operation
+ * @param type - Entity type
+ * @param keys - Identifying keys, typically [<entity id>]
+ * @returns API operation
  */
 function deleteOperation(type: string, keys: string[]): DeleteOperation {
   return {
