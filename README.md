@@ -92,7 +92,7 @@ Construct Event instance with `topic`, `data` and additional `options`.
 
 ##### Defined in
 
-[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event.ts#L24)
+[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event.ts#L24)
 
 ### Methods
 
@@ -114,7 +114,7 @@ Add source to event data.
 
 ##### Defined in
 
-[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event.ts#L45)
+[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event.ts#L45)
 
 ---
 
@@ -130,7 +130,7 @@ Return event data.
 
 ##### Defined in
 
-[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event.ts#L40)
+[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event.ts#L40)
 
 <a name="classeseventhubmd"></a>
 
@@ -179,7 +179,7 @@ EventHub
 
 ##### Defined in
 
-[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L106)
+[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L106)
 
 ### Methods
 
@@ -195,7 +195,7 @@ Connect to the event server.
 
 ##### Defined in
 
-[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L140)
+[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L140)
 
 ---
 
@@ -219,7 +219,7 @@ null if no subscriber with `identifier` found.
 
 ##### Defined in
 
-[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L465)
+[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L465)
 
 ---
 
@@ -235,7 +235,7 @@ True if connected to event server.
 
 ##### Defined in
 
-[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L159)
+[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L159)
 
 ---
 
@@ -255,20 +255,22 @@ will default to 10.
 
 ##### Parameters
 
-| Name               | Type                       | Description                                                           |
-| :----------------- | :------------------------- | :-------------------------------------------------------------------- |
-| `event`            | [`Event`](#classeseventmd) | Event instance to publish                                             |
-| `options`          | `Object`                   |                                                                       |
-| `options.onReply?` | `EventCallback`            | Function to be invoked when a reply is received.                      |
-| `options.timeout?` | `number`                   | Timeout in seconds. Defaults to 30. @ Promise resolved with event id. |
+| Name               | Type                       | Description                                      |
+| :----------------- | :------------------------- | :----------------------------------------------- |
+| `event`            | [`Event`](#classeseventmd) | Event instance to publish                        |
+| `options`          | `Object`                   |                                                  |
+| `options.onReply?` | `EventCallback`            | Function to be invoked when a reply is received. |
+| `options.timeout?` | `number`                   | Timeout in seconds. Defaults to 30.              |
 
 ##### Returns
 
 `Promise`<`string`\>
 
+Promise resolved with event id.
+
 ##### Defined in
 
-[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L217)
+[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L217)
 
 ---
 
@@ -290,9 +292,11 @@ Publish event and wait for a single reply.
 
 `Promise`<`unknown`\>
 
+Promise resolved with reply event if received within timeout.
+
 ##### Defined in
 
-[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L283)
+[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L283)
 
 ---
 
@@ -316,7 +320,7 @@ Publish reply event.
 
 ##### Defined in
 
-[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L541)
+[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L541)
 
 ---
 
@@ -332,15 +336,17 @@ Register to `subscription` events.
 | :------------- | :------------------- | :----------------------------------------------------------------------------------- |
 | `subscription` | `string`             | Expression to subscribe on. Currently, only "topic=value" expressions are supported. |
 | `callback`     | `EventCallback`      | Function to be called when an event matching the subscription is returned.           |
-| `metadata?`    | `SubscriberMetadata` | Optional information about subscriber. @ Subscriber ID.                              |
+| `metadata?`    | `SubscriberMetadata` | Optional information about subscriber.                                               |
 
 ##### Returns
 
 `string`
 
+Subscriber ID.
+
 ##### Defined in
 
-[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L346)
+[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L346)
 
 ---
 
@@ -352,17 +358,19 @@ Unsubscribe from `subscription` events.
 
 ##### Parameters
 
-| Name         | Type     | Description                                                                                       |
-| :----------- | :------- | :------------------------------------------------------------------------------------------------ |
-| `identifier` | `string` | Subscriber ID returned from subscribe method. @ True if a subscriber was removed, false otherwise |
+| Name         | Type     | Description                                   |
+| :----------- | :------- | :-------------------------------------------- |
+| `identifier` | `string` | Subscriber ID returned from subscribe method. |
 
 ##### Returns
 
 `boolean`
 
+True if a subscriber was removed, false otherwise
+
 ##### Defined in
 
-[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/event_hub.ts#L362)
+[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L362)
 
 <a name="classessessionmd"></a>
 
@@ -416,7 +424,7 @@ Session
 
 ##### Defined in
 
-[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L140)
+[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L140)
 
 ### Methods
 
@@ -451,7 +459,7 @@ Generic server errors or network issues
 
 ##### Defined in
 
-[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L491)
+[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L491)
 
 ---
 
@@ -477,7 +485,7 @@ Promise which will be resolved with the response.
 
 ##### Defined in
 
-[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L775)
+[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L775)
 
 ---
 
@@ -503,7 +511,7 @@ Component and ComponentLocation.
 
 ##### Defined in
 
-[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L899)
+[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L899)
 
 ---
 
@@ -529,7 +537,7 @@ Promise resolved with the response.
 
 ##### Defined in
 
-[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L825)
+[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L825)
 
 ---
 
@@ -551,7 +559,7 @@ Return encoded `operations`.
 
 ##### Defined in
 
-[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L465)
+[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L465)
 
 ---
 
@@ -593,7 +601,7 @@ Return update or create promise.
 
 ##### Defined in
 
-[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L593)
+[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L593)
 
 ---
 
@@ -617,7 +625,7 @@ URL where `componentId` can be downloaded, null if component id is not specified
 
 ##### Defined in
 
-[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L844)
+[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L844)
 
 ---
 
@@ -641,7 +649,7 @@ Identifying key for `entity`
 
 ##### Defined in
 
-[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L272)
+[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L272)
 
 ---
 
@@ -665,7 +673,7 @@ List of primary key attributes.
 
 ##### Defined in
 
-[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L254)
+[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L254)
 
 ---
 
@@ -689,7 +697,7 @@ Schema definition
 
 ##### Defined in
 
-[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L687)
+[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L687)
 
 ---
 
@@ -715,7 +723,7 @@ containing action, data and metadata
 
 ##### Defined in
 
-[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L707)
+[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L707)
 
 ---
 
@@ -740,7 +748,7 @@ Promise which will be resolved with an object containing data and metadata
 
 ##### Defined in
 
-[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L733)
+[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L733)
 
 ---
 
@@ -768,7 +776,7 @@ specified.
 
 ##### Defined in
 
-[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L872)
+[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L872)
 
 ---
 
@@ -795,7 +803,7 @@ Promise resolved with the response.
 
 ##### Defined in
 
-[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/session.ts#L798)
+[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L798)
 
 # Interfaces
 
@@ -844,7 +852,7 @@ error
 
 ##### Defined in
 
-[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L85)
+[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L85)
 
 ---
 
@@ -860,7 +868,7 @@ error
 
 ##### Defined in
 
-[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L62)
+[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L62)
 
 ---
 
@@ -876,7 +884,7 @@ error
 
 ##### Defined in
 
-[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L71)
+[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L71)
 
 ---
 
@@ -892,7 +900,7 @@ error
 
 ##### Defined in
 
-[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L53)
+[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L53)
 
 ---
 
@@ -908,7 +916,7 @@ error
 
 ##### Defined in
 
-[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L78)
+[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L78)
 
 ---
 
@@ -924,7 +932,7 @@ error
 
 ##### Defined in
 
-[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L30)
+[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L30)
 
 ---
 
@@ -940,7 +948,7 @@ error
 
 ##### Defined in
 
-[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L37)
+[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L37)
 
 ---
 
@@ -956,7 +964,7 @@ error
 
 ##### Defined in
 
-[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/error.ts#L46)
+[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L46)
 
 <a name="modulesoperationmd"></a>
 
@@ -1007,7 +1015,7 @@ operation
 
 ##### Defined in
 
-[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L84)
+[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L84)
 
 ---
 
@@ -1040,7 +1048,7 @@ API operation
 
 ##### Defined in
 
-[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L161)
+[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L161)
 
 ---
 
@@ -1072,7 +1080,7 @@ API operation
 
 ##### Defined in
 
-[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L100)
+[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L100)
 
 ---
 
@@ -1104,7 +1112,7 @@ operation
 
 ##### Defined in
 
-[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L112)
+[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L112)
 
 ---
 
@@ -1138,7 +1146,7 @@ API operation
 
 ##### Defined in
 
-[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/operation.ts#L139)
+[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L139)
 
 <a name="modulesprojectschemamd"></a>
 
@@ -1182,4 +1190,4 @@ project_schema
 
 ##### Defined in
 
-[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/4101287/source/project_schema.ts#L21)
+[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/project_schema.ts#L21)
