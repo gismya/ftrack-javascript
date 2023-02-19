@@ -726,8 +726,8 @@ export class Session {
    * @param options.contextId - Context id to limit the search result to
    * @param options.objectTypeIds - Object type ids to limit the search result to
    * @param additionalOptions
-   * @param options.abortController - Deprecated in favour of options.signal
-   * @param options.signal - Abort signal user for aborting requests prematurely
+   * @param additionalOptions.abortController - Deprecated in favour of additionalOptions.signal
+   * @param additionalOptions.signal - Abort signal user for aborting requests prematurely
    * @returns Promise which will be resolved with an object containing data and metadata
    */
   search(
@@ -891,7 +891,7 @@ export class Session {
    *
    * @param - The file object to upload.
    * @param options
-   * @param options.name - Component name. Defaults get from file object.
+   * @param options.name - Component name. @defaultValue From `file.name` if file object, or otherwise "component".
    * @param options.data - Component data. Defaults to {}.
    * @returns  Promise resolved with the response when creating
    * Component and ComponentLocation.

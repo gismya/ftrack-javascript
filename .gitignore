@@ -60,4 +60,4 @@ package.tgz
 !.yarn/sdks
 !.yarn/versions
 
-docs
+tmp

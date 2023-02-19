@@ -5,7 +5,7 @@
     "lint": "tsc && eslint . && prettier -c .",
     "test": "vitest --run test && yarn lint",
     "build": "vite build",
-    "docs": "yarn typedoc --readme none --plugin typedoc-plugin-markdown --namedAnchors --hideBreadcrumbs --excludePrivate --excludeProtected --excludeExternals --excludeNotDocumented source/index.ts --theme markdown && yarn concat-md --toc --decrease-title-levels --dir-name-as-title docs > README.md && yarn prettier --write README.md",
+    "docs": "yarn typedoc && yarn concat-md --decrease-title-levels --dir-name-as-title --start-title-level-at 2 tmp > README.md && yarn prettier --write README.md",
     "prepack": "yarn build",
     "prepublish": "yarn test",
     "prepare": "husky install"

@@ -1,78 +1,122 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [@ftrack/api](#ftrackapi)
-  - [Table of contents](#table-of-contents)
-    - [Namespaces](#namespaces)
-    - [Classes](#classes)
-- [Classes](#classes-1)
-  - [Class: Event](#class-event)
-    - [Table of contents](#table-of-contents-1)
-    - [Constructors](#constructors)
-    - [Methods](#methods)
-  - [Class: EventHub](#class-eventhub)
-    - [Table of contents](#table-of-contents-2)
-    - [Constructors](#constructors-1)
-    - [Methods](#methods-1)
-  - [Class: Session](#class-session)
-    - [Table of contents](#table-of-contents-3)
-    - [Constructors](#constructors-2)
-    - [Methods](#methods-2)
-- [Interfaces](#interfaces)
-  - [Interface: CreateOperation](#interface-createoperation)
-- [Modules](#modules)
-  - [Namespace: error](#namespace-error)
-    - [Table of contents](#table-of-contents-4)
-    - [Variables](#variables)
-  - [Namespace: operation](#namespace-operation)
-    - [Table of contents](#table-of-contents-5)
-    - [Functions](#functions)
-  - [Namespace: projectSchema](#namespace-projectschema)
-    - [Table of contents](#table-of-contents-6)
-    - [Functions](#functions-1)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 <a name="readmemd"></a>
 
-# @ftrack/api
+## ftrack Javascript API
 
-## Table of contents
+The JavaScript API client ease integration of applications and scripts written in JavaScript.
 
-### Namespaces
+This documentation focuses the JavaScript client. More information about the API and its concepts can be found at our [general API documentation](https://help.ftrack.com/en/collections/133732-developing-with-ftrack-studio). You may also find it useful to look at the documentation for the [Python client](https://github.com/ftrackhq/ftrack-python).
 
-- [error](#moduleserrormd)
-- [operation](#modulesoperationmd)
-- [projectSchema](#modulesprojectschemamd)
+### Installation
 
-### Classes
+npm:
 
-- [Event](#classeseventmd)
-- [EventHub](#classeseventhubmd)
-- [Session](#classessessionmd)
+```bash
+npm install @ftrack/api
+```
 
-# Classes
+Or, with Yarn:
+
+```bash
+yarn add @ftrack/api
+```
+
+#### Usage with Node
+
+Modern Node version (18+) have experimental support for the `fetch` API, and should be usable as is. Older Node versions may require you to install [cross-fetch](https://www.npmjs.com/package/cross-fetch).
+
+### Overview
+
+The API uses sessions to manage communication with an ftrack server. Create a session that connects to your ftrack server (changing the passed values as appropriate):
+
+```javascript
+const session = new ftrack.Session(
+  "https://my-company.ftrackapp.com",
+  "john.doe@example.com",
+  "7545344e-a653-11e1-a82c-f22c11dd25eq"
+);
+
+await session.initializing;
+
+console.info("API session initialized successfully.");
+```
+
+If everything works as expected, you should see the console message appear in the JavaScript console. If not, double check that the credentials you specified are correct.
+
+The communication with the ftrack server in the JavaScript API is asynchronous, often returning Promises. When the session is constructed, the instance is returned immediately, while the API is being initialized in the background. Once the API has been initialized, the session.initializing promise will be resolved.
+
+#### Query projects
+
+Now, let’s start of using the API with an example. Let’s list the names of all projects.
+
+```javascript
+const response = await session.query("select name from Project");
+
+const projects = response.data;
+console.info("Listing " + projects.length + " projects");
+
+console.log(projects.map((project) => project.name));
+```
+
+Each project returned will be a plain JavaScript object and contain the selected attributes.
+
+The session contains a few other methods besides `query()`, such as `create()`, `update()` and `delete()`. Next up, let’s take a look at combining the query call with an update operation. Since the method return promises, we can chain various asynchronous operations one after the other.
+
+In the example below a specific project is retrieved, and then its status is set to hidden, hiding the project from the UI.
+
+```javascript
+const projectName = "my_project";
+const response = await session.query(
+  "select id from Project where name is " + projectName
+);
+const projectId = response.data[0].id;
+const response = await session.update("Project", [projectId], {
+  status: "hidden",
+});
+
+console.info("Project hidden", response);
+```
+
+#### Uploading files
+
+Files are stored as components in ftrack. Here is an example on how to create a component from a file in ftrack and upload it to the `ftrack.server` location.
+
+```javascript
+const data = { foo: "bar" };
+const file = new File([JSON.stringify(data)], "data.json");
+
+const response = await session.createComponent(file);
+const component = response[0].data;
+console.debug("Component", component);
+console.debug("ComponentLocation", response[1].data);
+
+console.debug("Component URL: " + session.getComponentUrl(component.id));
+console.debug("Component thumbnail URL: " + session.thumbnailUrl(component.id));
+```
+
+## API Reference
+
+## Classes
 
 <a name="classeseventmd"></a>
 
-## Class: Event
+### Class: Event
 
 ftrack API Event class.
 
-### Table of contents
+#### Table of contents
 
-#### Constructors
+##### Constructors
 
 - [constructor](#constructor)
 
-#### Methods
+##### Methods
 
 - [addSource](#addsource)
 - [getData](#getdata)
 
-### Constructors
+#### Constructors
 
-#### <a id="constructor" name="constructor"></a> constructor
+##### <a id="constructor" name="constructor"></a> constructor
 
 • **new Event**(`topic`, `data`, `options?`)
 
@@ -82,7 +126,7 @@ Construct Event instance with `topic`, `data` and additional `options`.
 
 `data` should be an object with the event payload.
 
-##### Parameters
+###### Parameters
 
 | Name      | Type     |
 | :-------- | :------- |
@@ -90,61 +134,61 @@ Construct Event instance with `topic`, `data` and additional `options`.
 | `data`    | `object` |
 | `options` | `Object` |
 
-##### Defined in
+###### Defined in
 
-[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event.ts#L24)
+[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event.ts#L24)
 
-### Methods
+#### Methods
 
-#### <a id="addsource" name="addsource"></a> addSource
+##### <a id="addsource" name="addsource"></a> addSource
 
 ▸ **addSource**(`source`): `void`
 
 Add source to event data.
 
-##### Parameters
+###### Parameters
 
 | Name     | Type  |
 | :------- | :---- |
 | `source` | `any` |
 
-##### Returns
+###### Returns
 
 `void`
 
-##### Defined in
+###### Defined in
 
-[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event.ts#L45)
+[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event.ts#L45)
 
 ---
 
-#### <a id="getdata" name="getdata"></a> getData
+##### <a id="getdata" name="getdata"></a> getData
 
 ▸ **getData**(): `Object`
 
 Return event data.
 
-##### Returns
+###### Returns
 
 `Object`
 
-##### Defined in
+###### Defined in
 
-[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event.ts#L40)
+[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event.ts#L40)
 
 <a name="classeseventhubmd"></a>
 
-## Class: EventHub
+### Class: EventHub
 
 ftrack API Event hub.
 
-### Table of contents
+#### Table of contents
 
-#### Constructors
+##### Constructors
 
 - [constructor](#constructor)
 
-#### Methods
+##### Methods
 
 - [connect](#connect)
 - [getSubscriberByIdentifier](#getsubscriberbyidentifier)
@@ -155,9 +199,9 @@ ftrack API Event hub.
 - [subscribe](#subscribe)
 - [unsubscribe](#unsubscribe)
 
-### Constructors
+#### Constructors
 
-#### <a id="constructor" name="constructor"></a> constructor
+##### <a id="constructor" name="constructor"></a> constructor
 
 • **new EventHub**(`serverUrl`, `apiUser`, `apiKey`, `options?`)
 
@@ -167,7 +211,7 @@ Construct EventHub instance with API credentials.
 
 EventHub
 
-##### Parameters
+###### Parameters
 
 | Name                     | Type     | Description                                    |
 | :----------------------- | :------- | :--------------------------------------------- |
@@ -177,69 +221,69 @@ EventHub
 | `options`                | `Object` |                                                |
 | `options.applicationId?` | `string` | Application identifier, added to event source. |
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L106)
+[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L106)
 
-### Methods
+#### Methods
 
-#### <a id="connect" name="connect"></a> connect
+##### <a id="connect" name="connect"></a> connect
 
 ▸ **connect**(): `void`
 
 Connect to the event server.
 
-##### Returns
+###### Returns
 
 `void`
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L140)
+[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L140)
 
 ---
 
-#### <a id="getsubscriberbyidentifier" name="getsubscriberbyidentifier"></a> getSubscriberByIdentifier
+##### <a id="getsubscriberbyidentifier" name="getsubscriberbyidentifier"></a> getSubscriberByIdentifier
 
 ▸ **getSubscriberByIdentifier**(`identifier`): `null` \| `Subscriber`
 
 Return subscriber with matching `identifier`.
 
-##### Parameters
+###### Parameters
 
 | Name         | Type     |
 | :----------- | :------- |
 | `identifier` | `string` |
 
-##### Returns
+###### Returns
 
 `null` \| `Subscriber`
 
 null if no subscriber with `identifier` found.
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L465)
+[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L465)
 
 ---
 
-#### <a id="isconnected" name="isconnected"></a> isConnected
+##### <a id="isconnected" name="isconnected"></a> isConnected
 
 ▸ **isConnected**(): `boolean`
 
-##### Returns
+###### Returns
 
 `boolean`
 
 True if connected to event server.
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L159)
+[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L159)
 
 ---
 
-#### <a id="publish" name="publish"></a> publish
+##### <a id="publish" name="publish"></a> publish
 
 ▸ **publish**(`event`, `options?`): `Promise`<`string`\>
 
@@ -253,7 +297,7 @@ If timeout is non-zero, the promise will be rejected if the event is not
 sent before the timeout is reached. Should be specified as seconds and
 will default to 10.
 
-##### Parameters
+###### Parameters
 
 | Name               | Type                       | Description                                      |
 | :----------------- | :------------------------- | :----------------------------------------------- |
@@ -262,25 +306,25 @@ will default to 10.
 | `options.onReply?` | `EventCallback`            | Function to be invoked when a reply is received. |
 | `options.timeout?` | `number`                   | Timeout in seconds. Defaults to 30.              |
 
-##### Returns
+###### Returns
 
 `Promise`<`string`\>
 
 Promise resolved with event id.
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L217)
+[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L217)
 
 ---
 
-#### <a id="publishandwaitforreply" name="publishandwaitforreply"></a> publishAndWaitForReply
+##### <a id="publishandwaitforreply" name="publishandwaitforreply"></a> publishAndWaitForReply
 
 ▸ **publishAndWaitForReply**(`event`, `«destructured»`): `Promise`<`unknown`\>
 
 Publish event and wait for a single reply.
 
-##### Parameters
+###### Parameters
 
 | Name             | Type                       | Description               |
 | :--------------- | :------------------------- | :------------------------ |
@@ -288,25 +332,25 @@ Publish event and wait for a single reply.
 | `«destructured»` | `Object`                   | -                         |
 | › `timeout`      | `number`                   | -                         |
 
-##### Returns
+###### Returns
 
 `Promise`<`unknown`\>
 
 Promise resolved with reply event if received within timeout.
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L283)
+[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L283)
 
 ---
 
-#### <a id="publishreply" name="publishreply"></a> publishReply
+##### <a id="publishreply" name="publishreply"></a> publishReply
 
 ▸ **publishReply**(`sourceEventPayload`, `data`, `source?`): `Promise`<`string`\>
 
 Publish reply event.
 
-##### Parameters
+###### Parameters
 
 | Name                 | Type             | Default value | Description                       |
 | :------------------- | :--------------- | :------------ | :-------------------------------- |
@@ -314,23 +358,23 @@ Publish reply event.
 | `data`               | `Data`           | `undefined`   | Response event data               |
 | `source`             | `null` \| `Data` | `null`        | Response event source information |
 
-##### Returns
+###### Returns
 
 `Promise`<`string`\>
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L541)
+[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L541)
 
 ---
 
-#### <a id="subscribe" name="subscribe"></a> subscribe
+##### <a id="subscribe" name="subscribe"></a> subscribe
 
 ▸ **subscribe**(`subscription`, `callback`, `metadata?`): `string`
 
 Register to `subscription` events.
 
-##### Parameters
+###### Parameters
 
 | Name           | Type                 | Description                                                                          |
 | :------------- | :------------------- | :----------------------------------------------------------------------------------- |
@@ -338,53 +382,53 @@ Register to `subscription` events.
 | `callback`     | `EventCallback`      | Function to be called when an event matching the subscription is returned.           |
 | `metadata?`    | `SubscriberMetadata` | Optional information about subscriber.                                               |
 
-##### Returns
+###### Returns
 
 `string`
 
 Subscriber ID.
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L346)
+[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L346)
 
 ---
 
-#### <a id="unsubscribe" name="unsubscribe"></a> unsubscribe
+##### <a id="unsubscribe" name="unsubscribe"></a> unsubscribe
 
 ▸ **unsubscribe**(`identifier`): `boolean`
 
 Unsubscribe from `subscription` events.
 
-##### Parameters
+###### Parameters
 
 | Name         | Type     | Description                                   |
 | :----------- | :------- | :-------------------------------------------- |
 | `identifier` | `string` | Subscriber ID returned from subscribe method. |
 
-##### Returns
+###### Returns
 
 `boolean`
 
 True if a subscriber was removed, false otherwise
 
-##### Defined in
+###### Defined in
 
-[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/event_hub.ts#L362)
+[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/event_hub.ts#L362)
 
 <a name="classessessionmd"></a>
 
-## Class: Session
+### Class: Session
 
 ftrack API session
 
-### Table of contents
+#### Table of contents
 
-#### Constructors
+##### Constructors
 
 - [constructor](#constructor)
 
-#### Methods
+##### Methods
 
 - [call](#call)
 - [create](#create)
@@ -401,9 +445,9 @@ ftrack API session
 - [thumbnailUrl](#thumbnailurl)
 - [update](#update)
 
-### Constructors
+#### Constructors
 
-#### <a id="constructor" name="constructor"></a> constructor
+##### <a id="constructor" name="constructor"></a> constructor
 
 • **new Session**(`serverUrl`, `apiUser`, `apiKey`, `options?`)
 
@@ -413,7 +457,7 @@ Construct Session instance with API credentials.
 
 Session
 
-##### Parameters
+###### Parameters
 
 | Name        | Type             | Description                   |
 | :---------- | :--------------- | :---------------------------- |
@@ -422,13 +466,13 @@ Session
 | `apiKey`    | `string`         | User API Key                  |
 | `options`   | `SessionOptions` | options                       |
 
-##### Defined in
+###### Defined in
 
-[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L140)
+[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L140)
 
-### Methods
+#### Methods
 
-#### <a id="call" name="call"></a> call
+##### <a id="call" name="call"></a> call
 
 ▸ **call**(`operations`, `options?`): `Promise`<`Response`<`Data`\>[]\>
 
@@ -446,30 +490,30 @@ Permission defined errors
 ServerError
 Generic server errors or network issues
 
-##### Parameters
+###### Parameters
 
 | Name         | Type          | Description     |
 | :----------- | :------------ | :-------------- |
 | `operations` | `Operation`[] | API operations. |
 | `options`    | `CallOptions` |                 |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>[]\>
 
-##### Defined in
+###### Defined in
 
-[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L491)
+[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L491)
 
 ---
 
-#### <a id="create" name="create"></a> create
+##### <a id="create" name="create"></a> create
 
 ▸ **create**(`entityType`, `data`, `options?`): `Promise`<`Response`<`Data`\>\>
 
 Perform a single create operation with `type` and `data`.
 
-##### Parameters
+###### Parameters
 
 | Name         | Type          | Description                                                     |
 | :----------- | :------------ | :-------------------------------------------------------------- |
@@ -477,51 +521,55 @@ Perform a single create operation with `type` and `data`.
 | `data`       | `Data`        | data which should be used to populate attributes on the entity. |
 | `options`    | `CallOptions` |                                                                 |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>\>
 
 Promise which will be resolved with the response.
 
-##### Defined in
+###### Defined in
 
-[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L775)
+[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L775)
 
 ---
 
-#### <a id="createcomponent" name="createcomponent"></a> createComponent
+##### <a id="createcomponent" name="createcomponent"></a> createComponent
 
 ▸ **createComponent**(`file`, `options?`): `Promise`<`Response`<`Data`\>[]\>
 
 Create component from `file` and add to server location.
 
-##### Parameters
+**`Default Value`**
+
+From `file.name` if file object, or otherwise "component".
+
+###### Parameters
 
 | Name      | Type                     |
 | :-------- | :----------------------- |
 | `file`    | `Blob`                   |
 | `options` | `CreateComponentOptions` |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>[]\>
 
 Promise resolved with the response when creating
 Component and ComponentLocation.
 
-##### Defined in
+###### Defined in
 
-[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L899)
+[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L899)
 
 ---
 
-#### <a id="delete" name="delete"></a> delete
+##### <a id="delete" name="delete"></a> delete
 
 ▸ **delete**(`type`, `keys`, `options?`): `Promise`<`Response`<`Data`\>\>
 
 Perform a single delete operation.
 
-##### Parameters
+###### Parameters
 
 | Name      | Type                | Description                               |
 | :-------- | :------------------ | :---------------------------------------- |
@@ -529,41 +577,41 @@ Perform a single delete operation.
 | `keys`    | `string`[]          | Identifying keys, typically [<entity id>] |
 | `options` | `MutatationOptions` |                                           |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>\>
 
 Promise resolved with the response.
 
-##### Defined in
+###### Defined in
 
-[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L825)
+[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L825)
 
 ---
 
-#### <a id="encodeoperations" name="encodeoperations"></a> encodeOperations
+##### <a id="encodeoperations" name="encodeoperations"></a> encodeOperations
 
 ▸ **encodeOperations**(`operations`): `string`
 
 Return encoded `operations`.
 
-##### Parameters
+###### Parameters
 
 | Name         | Type          |
 | :----------- | :------------ |
 | `operations` | `Operation`[] |
 
-##### Returns
+###### Returns
 
 `string`
 
-##### Defined in
+###### Defined in
 
-[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L465)
+[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L465)
 
 ---
 
-#### <a id="ensure" name="ensure"></a> ensure
+##### <a id="ensure" name="ensure"></a> ensure
 
 ▸ **ensure**(`entityType`, `data`, `identifyingKeys?`): `Promise`<`Data`\>
 
@@ -587,7 +635,7 @@ If a matching entity is found, then update it if necessary with `data`.
 
 Return update or create promise.
 
-##### Parameters
+###### Parameters
 
 | Name              | Type       | Default value |
 | :---------------- | :--------- | :------------ |
@@ -595,170 +643,170 @@ Return update or create promise.
 | `data`            | `Data`     | `undefined`   |
 | `identifyingKeys` | `string`[] | `[]`          |
 
-##### Returns
+###### Returns
 
 `Promise`<`Data`\>
 
-##### Defined in
+###### Defined in
 
-[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L593)
+[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L593)
 
 ---
 
-#### <a id="getcomponenturl" name="getcomponenturl"></a> getComponentUrl
+##### <a id="getcomponenturl" name="getcomponenturl"></a> getComponentUrl
 
 ▸ **getComponentUrl**(`componentId`): `null` \| `string`
 
 Return an URL where `componentId` can be downloaded.
 
-##### Parameters
+###### Parameters
 
 | Name          | Type     | Description                                             |
 | :------------ | :------- | :------------------------------------------------------ |
 | `componentId` | `string` | Is assumed to be present in the ftrack.server location. |
 
-##### Returns
+###### Returns
 
 `null` \| `string`
 
 URL where `componentId` can be downloaded, null if component id is not specified.
 
-##### Defined in
+###### Defined in
 
-[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L844)
+[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L844)
 
 ---
 
-#### <a id="getidentifyingkey" name="getidentifyingkey"></a> getIdentifyingKey
+##### <a id="getidentifyingkey" name="getidentifyingkey"></a> getIdentifyingKey
 
 ▸ **getIdentifyingKey**(`entity`): `null` \| `string`
 
 Get identifying key for `entity`
 
-##### Parameters
+###### Parameters
 
 | Name     | Type   |
 | :------- | :----- |
 | `entity` | `Data` |
 
-##### Returns
+###### Returns
 
 `null` \| `string`
 
 Identifying key for `entity`
 
-##### Defined in
+###### Defined in
 
-[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L272)
+[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L272)
 
 ---
 
-#### <a id="getprimarykeyattributes" name="getprimarykeyattributes"></a> getPrimaryKeyAttributes
+##### <a id="getprimarykeyattributes" name="getprimarykeyattributes"></a> getPrimaryKeyAttributes
 
 ▸ **getPrimaryKeyAttributes**(`entityType`): `any`
 
 Get primary key attributes from schema
 
-##### Parameters
+###### Parameters
 
 | Name         | Type     |
 | :----------- | :------- |
 | `entityType` | `string` |
 
-##### Returns
+###### Returns
 
 `any`
 
 List of primary key attributes.
 
-##### Defined in
+###### Defined in
 
-[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L254)
+[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L254)
 
 ---
 
-#### <a id="getschema" name="getschema"></a> getSchema
+##### <a id="getschema" name="getschema"></a> getSchema
 
 ▸ **getSchema**(`schemaId`): `null` \| `Data`
 
 Return schema with id or null if not existing.
 
-##### Parameters
+###### Parameters
 
 | Name       | Type     | Description                              |
 | :--------- | :------- | :--------------------------------------- |
 | `schemaId` | `string` | Id of schema model, e.g. `AssetVersion`. |
 
-##### Returns
+###### Returns
 
 `null` \| `Data`
 
 Schema definition
 
-##### Defined in
+###### Defined in
 
-[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L687)
+[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L687)
 
 ---
 
-#### <a id="query" name="query"></a> query
+##### <a id="query" name="query"></a> query
 
 ▸ **query**(`expression`, `options?`): `Promise`<`Response`<`Data`\>\>
 
 Perform a single query operation with `expression`.
 
-##### Parameters
+###### Parameters
 
 | Name         | Type           | Description           |
 | :----------- | :------------- | :-------------------- |
 | `expression` | `string`       | API query expression. |
 | `options`    | `QueryOptions` |                       |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>\>
 
 Promise which will be resolved with an object
 containing action, data and metadata
 
-##### Defined in
+###### Defined in
 
-[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L707)
+[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L707)
 
 ---
 
-#### <a id="search" name="search"></a> search
+##### <a id="search" name="search"></a> search
 
 ▸ **search**(`options`, `options?`): `Promise`<`Response`<`Data`\>\>
 
 Perform a single search operation with `expression`.
 
-##### Parameters
+###### Parameters
 
 | Name      | Type            |
 | :-------- | :-------------- |
 | `options` | `SearchOptions` |
 | `options` | `QueryOptions`  |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>\>
 
 Promise which will be resolved with an object containing data and metadata
 
-##### Defined in
+###### Defined in
 
-[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L733)
+[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L733)
 
 ---
 
-#### <a id="thumbnailurl" name="thumbnailurl"></a> thumbnailUrl
+##### <a id="thumbnailurl" name="thumbnailurl"></a> thumbnailUrl
 
 ▸ **thumbnailUrl**(`componentId`, `options?`): `string`
 
 Return an URL where a thumbnail for `componentId` can be downloaded.
 
-##### Parameters
+###### Parameters
 
 | Name           | Type                    | Description                                                                                             |
 | :------------- | :---------------------- | :------------------------------------------------------------------------------------------------------ |
@@ -766,7 +814,7 @@ Return an URL where a thumbnail for `componentId` can be downloaded.
 | `options`      | `Object`                |                                                                                                         |
 | `options.size` | `undefined` \| `number` | The size of the thumbnail. The image will be resized to fit within size x size pixels. Defaults to 300. |
 
-##### Returns
+###### Returns
 
 `string`
 
@@ -774,19 +822,19 @@ URL where `componentId` can be downloaded. Returns the
 URL to a default thumbnail if component id is not
 specified.
 
-##### Defined in
+###### Defined in
 
-[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L872)
+[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L872)
 
 ---
 
-#### <a id="update" name="update"></a> update
+##### <a id="update" name="update"></a> update
 
 ▸ **update**(`type`, `keys`, `data`, `options?`): `Promise`<`Response`<`Data`\>\>
 
 Perform a single update operation on `type` with `keys` and `data`.
 
-##### Parameters
+###### Parameters
 
 | Name      | Type                | Description                               |
 | :-------- | :------------------ | :---------------------------------------- |
@@ -795,21 +843,21 @@ Perform a single update operation on `type` with `keys` and `data`.
 | `data`    | `Data`              |                                           |
 | `options` | `MutatationOptions` |                                           |
 
-##### Returns
+###### Returns
 
 `Promise`<`Response`<`Data`\>\>
 
 Promise resolved with the response.
 
-##### Defined in
+###### Defined in
 
-[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/session.ts#L798)
+[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/session.ts#L798)
 
-# Interfaces
+## Interfaces
 
 <a name="interfacesoperationcreateoperationmd"></a>
 
-## Interface: CreateOperation
+### Interface: CreateOperation
 
 [operation](#modulesoperationmd).CreateOperation
 
@@ -819,15 +867,33 @@ Operations module
 
 operation
 
-# Modules
+<a name="modulesmd"></a>
 
-<a name="moduleserrormd"></a>
-
-## Namespace: error
+## @ftrack/api
 
 ### Table of contents
 
-#### Variables
+#### Namespaces
+
+- [error](#moduleserrormd)
+- [operation](#modulesoperationmd)
+- [projectSchema](#modulesprojectschemamd)
+
+#### Classes
+
+- [Event](#classeseventmd)
+- [EventHub](#classeseventhubmd)
+- [Session](#classessessionmd)
+
+## Modules
+
+<a name="moduleserrormd"></a>
+
+### Namespace: error
+
+#### Table of contents
+
+##### Variables
 
 - [CreateComponentError](#createcomponenterror)
 - [EventServerConnectionTimeoutError](#eventserverconnectiontimeouterror)
@@ -838,9 +904,9 @@ operation
 - [ServerPermissionDeniedError](#serverpermissiondeniederror)
 - [ServerValidationError](#servervalidationerror)
 
-### Variables
+#### Variables
 
-#### <a id="createcomponenterror" name="createcomponenterror"></a> CreateComponentError
+##### <a id="createcomponenterror" name="createcomponenterror"></a> CreateComponentError
 
 • `Const` **CreateComponentError**: typeof `CustomError`
 
@@ -850,13 +916,13 @@ Throw when file upload to event server is aborted or does not succeed.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L85)
+[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L85)
 
 ---
 
-#### <a id="eventserverconnectiontimeouterror" name="eventserverconnectiontimeouterror"></a> EventServerConnectionTimeoutError
+##### <a id="eventserverconnectiontimeouterror" name="eventserverconnectiontimeouterror"></a> EventServerConnectionTimeoutError
 
 • `Const` **EventServerConnectionTimeoutError**: typeof `CustomError`
 
@@ -866,13 +932,13 @@ Throw when event server connection timeout occurs.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L62)
+[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L62)
 
 ---
 
-#### <a id="eventserverpublisherror" name="eventserverpublisherror"></a> EventServerPublishError
+##### <a id="eventserverpublisherror" name="eventserverpublisherror"></a> EventServerPublishError
 
 • `Const` **EventServerPublishError**: typeof `CustomError`
 
@@ -882,13 +948,13 @@ Throw when event hub hasn't been connected to the event server.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L71)
+[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L71)
 
 ---
 
-#### <a id="eventserverreplytimeouterror" name="eventserverreplytimeouterror"></a> EventServerReplyTimeoutError
+##### <a id="eventserverreplytimeouterror" name="eventserverreplytimeouterror"></a> EventServerReplyTimeoutError
 
 • `Const` **EventServerReplyTimeoutError**: typeof `CustomError`
 
@@ -898,13 +964,13 @@ Throw when event reply timeout occurs.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L53)
+[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L53)
 
 ---
 
-#### <a id="notuniqueerror" name="notuniqueerror"></a> NotUniqueError
+##### <a id="notuniqueerror" name="notuniqueerror"></a> NotUniqueError
 
 • `Const` **NotUniqueError**: typeof `CustomError`
 
@@ -914,13 +980,13 @@ Throw when event server connection timeout occurs.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L78)
+[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L78)
 
 ---
 
-#### <a id="servererror" name="servererror"></a> ServerError
+##### <a id="servererror" name="servererror"></a> ServerError
 
 • `Const` **ServerError**: typeof `CustomError`
 
@@ -930,13 +996,13 @@ Throw when a unknown server error occurs.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L30)
+[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L30)
 
 ---
 
-#### <a id="serverpermissiondeniederror" name="serverpermissiondeniederror"></a> ServerPermissionDeniedError
+##### <a id="serverpermissiondeniederror" name="serverpermissiondeniederror"></a> ServerPermissionDeniedError
 
 • `Const` **ServerPermissionDeniedError**: typeof `CustomError`
 
@@ -946,13 +1012,13 @@ Throw when a permission denied error occurs.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L37)
+[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L37)
 
 ---
 
-#### <a id="servervalidationerror" name="servervalidationerror"></a> ServerValidationError
+##### <a id="servervalidationerror" name="servervalidationerror"></a> ServerValidationError
 
 • `Const` **ServerValidationError**: typeof `CustomError`
 
@@ -962,21 +1028,21 @@ Throw when a validation error occurs.
 
 error
 
-##### Defined in
+###### Defined in
 
-[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/error.ts#L46)
+[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/error.ts#L46)
 
 <a name="modulesoperationmd"></a>
 
-## Namespace: operation
+### Namespace: operation
 
-### Table of contents
+#### Table of contents
 
-#### Interfaces
+##### Interfaces
 
 - [CreateOperation](#interfacesoperationcreateoperationmd)
 
-#### Functions
+##### Functions
 
 - [create](#create)
 - [delete](#delete)
@@ -984,9 +1050,9 @@ error
 - [search](#search)
 - [update](#update)
 
-### Functions
+#### Functions
 
-#### <a id="create" name="create"></a> create
+##### <a id="create" name="create"></a> create
 
 ▸ **create**(`type`, `data`): [`CreateOperation`](#interfacesoperationcreateoperationmd)
 
@@ -1000,26 +1066,26 @@ operation.create
 
 operation
 
-##### Parameters
+###### Parameters
 
 | Name   | Type     | Description                     |
 | :----- | :------- | :------------------------------ |
 | `type` | `string` | Entity type                     |
 | `data` | `any`    | Entity data to use for creation |
 
-##### Returns
+###### Returns
 
 [`CreateOperation`](#interfacesoperationcreateoperationmd)
 
 - API operation
 
-##### Defined in
+###### Defined in
 
-[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L84)
+[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/operation.ts#L84)
 
 ---
 
-#### <a id="delete" name="delete"></a> delete
+##### <a id="delete" name="delete"></a> delete
 
 ▸ **delete**(`type`, `keys`): `DeleteOperation`
 
@@ -1033,26 +1099,26 @@ operation.delete
 
 operation
 
-##### Parameters
+###### Parameters
 
 | Name   | Type       | Description                               |
 | :----- | :--------- | :---------------------------------------- |
 | `type` | `string`   | Entity type                               |
 | `keys` | `string`[] | Identifying keys, typically [<entity id>] |
 
-##### Returns
+###### Returns
 
 `DeleteOperation`
 
 API operation
 
-##### Defined in
+###### Defined in
 
-[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L161)
+[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/operation.ts#L161)
 
 ---
 
-#### <a id="query" name="query"></a> query
+##### <a id="query" name="query"></a> query
 
 ▸ **query**(`expression`): `QueryOperation`
 
@@ -1066,25 +1132,25 @@ operation.query
 
 operation
 
-##### Parameters
+###### Parameters
 
 | Name         | Type     | Description          |
 | :----------- | :------- | :------------------- |
 | `expression` | `string` | API query expression |
 
-##### Returns
+###### Returns
 
 `QueryOperation`
 
 API operation
 
-##### Defined in
+###### Defined in
 
-[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L100)
+[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/operation.ts#L100)
 
 ---
 
-#### <a id="search" name="search"></a> search
+##### <a id="search" name="search"></a> search
 
 ▸ **search**(`expression`): `SearchOperation`
 
@@ -1098,25 +1164,25 @@ operation.query
 
 operation
 
-##### Parameters
+###### Parameters
 
 | Name         | Type                     | Description          |
 | :----------- | :----------------------- | :------------------- |
 | `expression` | `SearchOperationOptions` | API query expression |
 
-##### Returns
+###### Returns
 
 `SearchOperation`
 
 - API operation
 
-##### Defined in
+###### Defined in
 
-[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L112)
+[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/operation.ts#L112)
 
 ---
 
-#### <a id="update" name="update"></a> update
+##### <a id="update" name="update"></a> update
 
 ▸ **update**(`type`, `keys`, `data`): `UpdateOperation`
 
@@ -1130,7 +1196,7 @@ operation.update
 
 operation
 
-##### Parameters
+###### Parameters
 
 | Name   | Type       | Description                               |
 | :----- | :--------- | :---------------------------------------- |
@@ -1138,29 +1204,29 @@ operation
 | `keys` | `string`[] | Identifying keys, typically [<entity id>] |
 | `data` | `any`      | Values to update                          |
 
-##### Returns
+###### Returns
 
 `UpdateOperation`
 
 API operation
 
-##### Defined in
+###### Defined in
 
-[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/operation.ts#L139)
+[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/operation.ts#L139)
 
 <a name="modulesprojectschemamd"></a>
 
-## Namespace: projectSchema
+### Namespace: projectSchema
 
-### Table of contents
+#### Table of contents
 
-#### Functions
+##### Functions
 
 - [getStatuses](#getstatuses)
 
-### Functions
+#### Functions
 
-#### <a id="getstatuses" name="getstatuses"></a> getStatuses
+##### <a id="getstatuses" name="getstatuses"></a> getStatuses
 
 ▸ **getStatuses**(`session`, `projectSchemaId`, `entityType`, `typeId?`): `Promise`<`any`\>
 
@@ -1175,7 +1241,7 @@ Return statuses from `projectSchemaId` for `entityType` and `typeId`.
 
 project_schema
 
-##### Parameters
+###### Parameters
 
 | Name              | Type                           | Default value |
 | :---------------- | :----------------------------- | :------------ |
@@ -1184,10 +1250,10 @@ project_schema
 | `entityType`      | `string`                       | `undefined`   |
 | `typeId`          | `null` \| `string`             | `null`        |
 
-##### Returns
+###### Returns
 
 `Promise`<`any`\>
 
-##### Defined in
+###### Defined in
 
-[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/5f05036/source/project_schema.ts#L21)
+[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/7fdb37d/source/project_schema.ts#L21)
