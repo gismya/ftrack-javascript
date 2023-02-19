@@ -47,7 +47,7 @@ operation
 
 #### Defined in
 
-[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/operation.ts#L84)
+[operation.ts:84](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/operation.ts#L84)
 
 ---
 
@@ -80,7 +80,7 @@ API operation
 
 #### Defined in
 
-[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/operation.ts#L161)
+[operation.ts:161](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/operation.ts#L161)
 
 ---
 
@@ -112,7 +112,7 @@ API operation
 
 #### Defined in
 
-[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/operation.ts#L100)
+[operation.ts:100](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/operation.ts#L100)
 
 ---
 
@@ -144,7 +144,7 @@ operation
 
 #### Defined in
 
-[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/operation.ts#L112)
+[operation.ts:112](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/operation.ts#L112)
 
 ---
 
@@ -178,4 +178,4 @@ API operation
 
 #### Defined in
 
-[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/operation.ts#L139)
+[operation.ts:139](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/operation.ts#L139)

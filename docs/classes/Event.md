@@ -37,7 +37,7 @@ Construct Event instance with `topic`, `data` and additional `options`.
 
 #### Defined in
 
-[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event.ts#L24)
+[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/event.ts#L24)
 
 ## Methods
 
@@ -59,7 +59,7 @@ Add source to event data.
 
 #### Defined in
 
-[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event.ts#L45)
+[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/event.ts#L45)
 
 ---
 
@@ -75,4 +75,4 @@ Return event data.
 
 #### Defined in
 
-[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event.ts#L40)
+[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/event.ts#L40)

@@ -40,4 +40,4 @@ project_schema
 
 #### Defined in
 
-[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/project_schema.ts#L21)
+[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/project_schema.ts#L21)

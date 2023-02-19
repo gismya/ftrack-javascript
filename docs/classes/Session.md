@@ -50,7 +50,7 @@ Session
 
 #### Defined in
 
-[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L140)
+[session.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L140)
 
 ## Methods
 
@@ -85,7 +85,7 @@ Generic server errors or network issues
 
 #### Defined in
 
-[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L491)
+[session.ts:491](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L491)
 
 ---
 
@@ -111,7 +111,7 @@ Promise which will be resolved with the response.
 
 #### Defined in
 
-[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L775)
+[session.ts:775](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L775)
 
 ---
 
@@ -141,7 +141,7 @@ Component and ComponentLocation.
 
 #### Defined in
 
-[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L899)
+[session.ts:899](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L899)
 
 ---
 
@@ -167,7 +167,7 @@ Promise resolved with the response.
 
 #### Defined in
 
-[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L825)
+[session.ts:825](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L825)
 
 ---
 
@@ -189,7 +189,7 @@ Return encoded `operations`.
 
 #### Defined in
 
-[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L465)
+[session.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L465)
 
 ---
 
@@ -231,7 +231,7 @@ Return update or create promise.
 
 #### Defined in
 
-[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L593)
+[session.ts:593](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L593)
 
 ---
 
@@ -255,7 +255,7 @@ URL where `componentId` can be downloaded, null if component id is not specified
 
 #### Defined in
 
-[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L844)
+[session.ts:844](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L844)
 
 ---
 
@@ -279,7 +279,7 @@ Identifying key for `entity`
 
 #### Defined in
 
-[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L272)
+[session.ts:272](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L272)
 
 ---
 
@@ -303,7 +303,7 @@ List of primary key attributes.
 
 #### Defined in
 
-[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L254)
+[session.ts:254](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L254)
 
 ---
 
@@ -327,7 +327,7 @@ Schema definition
 
 #### Defined in
 
-[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L687)
+[session.ts:687](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L687)
 
 ---
 
@@ -353,7 +353,7 @@ containing action, data and metadata
 
 #### Defined in
 
-[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L707)
+[session.ts:707](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L707)
 
 ---
 
@@ -378,7 +378,7 @@ Promise which will be resolved with an object containing data and metadata
 
 #### Defined in
 
-[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L733)
+[session.ts:733](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L733)
 
 ---
 
@@ -406,7 +406,7 @@ specified.
 
 #### Defined in
 
-[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L872)
+[session.ts:872](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L872)
 
 ---
 
@@ -433,4 +433,4 @@ Promise resolved with the response.
 
 #### Defined in
 
-[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/session.ts#L798)
+[session.ts:798](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/session.ts#L798)

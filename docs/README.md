@@ -14,7 +14,7 @@ npm:
 npm install @ftrack/api
 ```
 
-Or, with Yarn:
+yarn:
 
 ```bash
 yarn add @ftrack/api

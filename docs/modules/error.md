@@ -29,7 +29,7 @@ error
 
 #### Defined in
 
-[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L85)
+[error.ts:85](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L85)
 
 ---
 
@@ -45,7 +45,7 @@ error
 
 #### Defined in
 
-[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L62)
+[error.ts:62](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L62)
 
 ---
 
@@ -61,7 +61,7 @@ error
 
 #### Defined in
 
-[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L71)
+[error.ts:71](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L71)
 
 ---
 
@@ -77,7 +77,7 @@ error
 
 #### Defined in
 
-[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L53)
+[error.ts:53](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L53)
 
 ---
 
@@ -93,7 +93,7 @@ error
 
 #### Defined in
 
-[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L78)
+[error.ts:78](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L78)
 
 ---
 
@@ -109,7 +109,7 @@ error
 
 #### Defined in
 
-[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L30)
+[error.ts:30](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L30)
 
 ---
 
@@ -125,7 +125,7 @@ error
 
 #### Defined in
 
-[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L37)
+[error.ts:37](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L37)
 
 ---
 
@@ -141,4 +141,4 @@ error
 
 #### Defined in
 
-[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/error.ts#L46)
+[error.ts:46](https://github.com/ftrackhq/ftrack-javascript/blob/91f099c/source/error.ts#L46)

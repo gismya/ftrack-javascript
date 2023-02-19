@@ -2,6 +2,7 @@
   "$schema": "https://typedoc.org/schema.json",
   "plugin": ["typedoc-plugin-markdown"],
   "namedAnchors": true,
+  "categorizeByGroup": true,
   "hideBreadcrumbs": false,
   "excludePrivate": true,
   "excludeProtected": true,
