@@ -1,6 +1,25 @@
+[@ftrack/api](../README.md) / [Exports](../modules.md) / EventHub
+
 # Class: EventHub
 
 ftrack API Event hub.
+
+## Table of contents
+
+### Constructors
+
+- [constructor](EventHub.md#constructor)
+
+### Methods
+
+- [connect](EventHub.md#connect)
+- [getSubscriberByIdentifier](EventHub.md#getsubscriberbyidentifier)
+- [isConnected](EventHub.md#isconnected)
+- [publish](EventHub.md#publish)
+- [publishAndWaitForReply](EventHub.md#publishandwaitforreply)
+- [publishReply](EventHub.md#publishreply)
+- [subscribe](EventHub.md#subscribe)
+- [unsubscribe](EventHub.md#unsubscribe)
 
 ## Constructors
 
@@ -26,7 +45,7 @@ EventHub
 
 #### Defined in
 
-[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L106)
+[event_hub.ts:106](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L106)
 
 ## Methods
 
@@ -42,7 +61,7 @@ Connect to the event server.
 
 #### Defined in
 
-[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L140)
+[event_hub.ts:140](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L140)
 
 ---
 
@@ -66,7 +85,7 @@ null if no subscriber with `identifier` found.
 
 #### Defined in
 
-[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L465)
+[event_hub.ts:465](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L465)
 
 ---
 
@@ -82,7 +101,7 @@ True if connected to event server.
 
 #### Defined in
 
-[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L159)
+[event_hub.ts:159](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L159)
 
 ---
 
@@ -117,7 +136,7 @@ Promise resolved with event id.
 
 #### Defined in
 
-[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L217)
+[event_hub.ts:217](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L217)
 
 ---
 
@@ -143,7 +162,7 @@ Promise resolved with reply event if received within timeout.
 
 #### Defined in
 
-[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L283)
+[event_hub.ts:283](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L283)
 
 ---
 
@@ -167,7 +186,7 @@ Publish reply event.
 
 #### Defined in
 
-[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L541)
+[event_hub.ts:541](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L541)
 
 ---
 
@@ -193,7 +212,7 @@ Subscriber ID.
 
 #### Defined in
 
-[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L346)
+[event_hub.ts:346](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L346)
 
 ---
 
@@ -217,4 +236,4 @@ True if a subscriber was removed, false otherwise
 
 #### Defined in
 
-[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event_hub.ts#L362)
+[event_hub.ts:362](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event_hub.ts#L362)

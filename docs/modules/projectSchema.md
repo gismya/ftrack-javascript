@@ -1,4 +1,12 @@
+[@ftrack/api](../README.md) / [Exports](../modules.md) / projectSchema
+
 # Namespace: projectSchema
+
+## Table of contents
+
+### Functions
+
+- [getStatuses](projectSchema.md#getstatuses)
 
 ## Functions
 
@@ -32,4 +40,4 @@ project_schema
 
 #### Defined in
 
-[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/project_schema.ts#L21)
+[project_schema.ts:21](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/project_schema.ts#L21)

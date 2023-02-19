@@ -1,6 +1,19 @@
+[@ftrack/api](../README.md) / [Exports](../modules.md) / Event
+
 # Class: Event
 
 ftrack API Event class.
+
+## Table of contents
+
+### Constructors
+
+- [constructor](Event.md#constructor)
+
+### Methods
+
+- [addSource](Event.md#addsource)
+- [getData](Event.md#getdata)
 
 ## Constructors
 
@@ -24,7 +37,7 @@ Construct Event instance with `topic`, `data` and additional `options`.
 
 #### Defined in
 
-[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event.ts#L24)
+[event.ts:24](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event.ts#L24)
 
 ## Methods
 
@@ -46,7 +59,7 @@ Add source to event data.
 
 #### Defined in
 
-[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event.ts#L45)
+[event.ts:45](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event.ts#L45)
 
 ---
 
@@ -62,4 +75,4 @@ Return event data.
 
 #### Defined in
 
-[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/d4efce9/source/event.ts#L40)
+[event.ts:40](https://github.com/ftrackhq/ftrack-javascript/blob/54b9b99/source/event.ts#L40)

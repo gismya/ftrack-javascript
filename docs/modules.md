@@ -1,12 +1,16 @@
+[@ftrack/api](README.md) / Exports
+
 # @ftrack/api
 
-## Namespaces
+## Table of contents
+
+### Namespaces
 
 - [error](modules/error.md)
 - [operation](modules/operation.md)
 - [projectSchema](modules/projectSchema.md)
 
-## Classes
+### Classes
 
 - [Event](classes/Event.md)
 - [EventHub](classes/EventHub.md)
