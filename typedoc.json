@@ -1,14 +1,15 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "readme": "docs/intro.md",
   "plugin": ["typedoc-plugin-markdown"],
   "namedAnchors": true,
-  "hideBreadcrumbs": true,
+  "hideBreadcrumbs": false,
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeExternals": true,
   "excludeNotDocumented": true,
+  "hideInPageTOC": false,
+  "hideMembersSymbol": false,
   "entryPoints": ["source/index.ts"],
   "theme": "markdown",
-  "out": "tmp"
+  "out": "docs"
 }
