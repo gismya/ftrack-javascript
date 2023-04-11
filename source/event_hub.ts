@@ -177,6 +177,7 @@ export class EventHub {
 
   /** Connect to the event server. */
   connect(): void {
+    console.log("connecting");
     this._socketIo = io.connect(this._serverUrl, {
       reconnectionAttempts: 10000,
       reconnectionDelay: 5000,
@@ -187,10 +188,11 @@ export class EventHub {
         api_user: this._apiUser,
         api_key: this._apiKey,
       }).toString(),
-      
     });
+    console.log("connecting 2", this._socketIo);
 
     this._socketIo.on("connect", this._onSocketConnected);
+
     this._socketIo.on("ftrack.event", this._handle);
   }
 
